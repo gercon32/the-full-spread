@@ -132,7 +132,7 @@
 </nav>
 
 <div class="hero">
-  <div class="hero-tag"><span class="hero-tag-dot"></span>office catering, simplified</div>
+  <div class="hero-tag"><span class="hero-tag-dot"></span>every event, every craving, covered</div>
   <h1>Catering from the <em>cuisines</em> your team loves</h1>
   <p>The Full Spread brings together the best local flavors into one seamless catering experience — delivered to your office, event, or space.</p>
   <div class="hero-btns">
@@ -745,6 +745,9 @@ async function submitQuote() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         access_key: '0b0546bb-031a-46ac-b42e-478f0dbc087f',
+        from_name: 'The Full Spread',
+        replyto: email,
+        to: 'geryolconce@gmail.com',
         subject: `New catering quote request — ${name}`,
         name,
         email,
