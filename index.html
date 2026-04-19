@@ -724,7 +724,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-function submitQuote() {
+async function submitQuote() {
   const name = document.getElementById('fname').value.trim();
   const email = document.getElementById('femail').value.trim();
   const phone = document.getElementById('fphone').value.trim();
@@ -734,11 +734,42 @@ function submitQuote() {
   const notes = document.getElementById('fnotes').value.trim();
   if (!name || !email || !phone || !date || !count || !address) { showToast('Please fill in all required fields'); return; }
   const cuisineList = selected.size > 0 ? [...selected].join(', ') : 'Not specified';
-  const subject = encodeURIComponent(`Catering quote request — ${name}`);
-  const body = encodeURIComponent(`New quote request from The Full Spread\n\nName: ${name}\nEmail: ${email}\nPhone/WhatsApp: ${phone}\nEvent date: ${date}\nHeadcount: ${count}\nAddress: ${address}\nCuisines: ${cuisineList}\nNotes: ${notes || 'None'}`);
-  window.location.href = `mailto:hello@thefullspread.com?subject=${subject}&body=${body}`;
-  document.getElementById('formState').style.display = 'none';
-  document.getElementById('successState').style.display = 'block';
+
+  const submitBtn = document.querySelector('.submit-btn');
+  submitBtn.textContent = 'Sending...';
+  submitBtn.disabled = true;
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '0b0546bb-031a-46ac-b42e-478f0dbc087f',
+        subject: `New catering quote request — ${name}`,
+        name,
+        email,
+        phone,
+        event_date: date,
+        headcount: count,
+        delivery_address: address,
+        cuisines: cuisineList,
+        notes: notes || 'None'
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('formState').style.display = 'none';
+      document.getElementById('successState').style.display = 'block';
+    } else {
+      showToast('Something went wrong — please try again');
+      submitBtn.textContent = 'Send my quote request';
+      submitBtn.disabled = false;
+    }
+  } catch (err) {
+    showToast('Connection error — please try again');
+    submitBtn.textContent = 'Send my quote request';
+    submitBtn.disabled = false;
+  }
 }
 </script>
 </body>
