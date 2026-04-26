@@ -1,256 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Full Spread — Catering</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --cream: #FAF6EF;
-    --warm-white: #FDF9F4;
-    --terracotta: #C4602A;
-    --terracotta-light: #E8855A;
-    --terracotta-pale: #F5E6DC;
-    --bark: #3D2B1F;
-    --bark-mid: #6B4C38;
-    --bark-light: #A07860;
-    --sage: #7A8C6E;
-    --gold: #D4A843;
-    --gold-pale: #F5EDD4;
-    --border: rgba(61,43,31,0.12);
-    --border-warm: rgba(196,96,42,0.2);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--bark); min-height: 100vh; overflow-x: hidden; }
-  nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .nav-logo { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--bark); }
-  .nav-logo span { color: var(--terracotta); }
-  .nav-cta { background: var(--terracotta); color: white; border: none; padding: 9px 18px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; }
-  .hero { padding: 52px 24px 44px; text-align: center; background: var(--warm-white); border-bottom: 1px solid var(--border); }
-  .hero-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-pale); color: var(--bark-mid); font-size: 11px; font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; margin-bottom: 20px; border: 1px solid rgba(212,168,67,0.3); }
-  .hero-tag-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
-  .hero h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; line-height: 1.15; color: var(--bark); margin-bottom: 16px; }
-  .hero h1 em { color: var(--terracotta); font-style: italic; }
-  .hero p { font-size: 15px; color: var(--bark-mid); line-height: 1.65; margin-bottom: 28px; max-width: 340px; margin-left: auto; margin-right: auto; }
-  .hero-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: var(--terracotta); color: white; border: none; padding: 14px 28px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
-  .btn-ghost { background: transparent; color: var(--bark); border: 1.5px solid var(--border); padding: 13px 24px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 15px; cursor: pointer; }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
-  .stat { padding: 20px 12px; text-align: center; border-right: 1px solid var(--border); }
-  .stat:last-child { border-right: none; }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--terracotta); line-height: 1; margin-bottom: 4px; }
-  .stat-label { font-size: 11px; color: var(--bark-light); }
-  section { padding: 44px 24px; }
-  section + section { border-top: 1px solid var(--border); }
-  .section-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: var(--terracotta); margin-bottom: 8px; }
-  .section-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--bark); margin-bottom: 10px; line-height: 1.2; }
-  .section-sub { font-size: 14px; color: var(--bark-mid); line-height: 1.65; margin-bottom: 28px; }
-  .cuisine-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .cuisine-card { background: var(--warm-white); border: 1.5px solid var(--border); border-radius: 16px; padding: 16px 10px; text-align: center; cursor: pointer; user-select: none; position: relative; transition: border-color 0.15s; }
-  .cuisine-card.selected { background: var(--terracotta-pale); border-color: var(--terracotta); }
-  .cuisine-emoji { font-size: 28px; margin-bottom: 6px; display: block; }
-  .cuisine-name { font-size: 12px; font-weight: 500; color: var(--bark); margin-bottom: 2px; }
-  .cuisine-sub { font-size: 10px; color: var(--bark-light); }
-  .cuisine-card.selected .cuisine-name { color: var(--terracotta); }
-  .cuisine-info-btn { position: absolute; top: 7px; right: 7px; width: 18px; height: 18px; border-radius: 50%; background: var(--bark); color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2; border: none; font-family: 'DM Sans', sans-serif; }
-  .cuisine-card.selected .cuisine-info-btn { background: var(--terracotta); }
-  .sheet-overlay { position: fixed; inset: 0; background: rgba(61,43,31,0.5); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-  .sheet-overlay.open { opacity: 1; pointer-events: all; }
-  .bottom-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: var(--warm-white); border-radius: 24px 24px 0 0; z-index: 201; transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.32,0.72,0,1); max-height: 88vh; display: flex; flex-direction: column; }
-  .bottom-sheet.open { transform: translateY(0); }
-  .sheet-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 12px auto 0; flex-shrink: 0; }
-  .sheet-header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
-  .sheet-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--bark); }
-  .sheet-restaurant { font-size: 12px; color: var(--bark-light); margin-top: 2px; }
-  .sheet-close { width: 32px; height: 32px; border-radius: 50%; background: var(--terracotta-pale); border: none; cursor: pointer; font-size: 14px; color: var(--terracotta); font-weight: 500; flex-shrink: 0; }
-  .sheet-body { overflow-y: auto; padding: 16px 20px 16px; flex: 1; }
-  .sheet-category { margin-bottom: 24px; }
-  .sheet-cat-title { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--terracotta); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border-warm); }
-  .menu-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--border); gap: 12px; }
-  .menu-item:last-child { border-bottom: none; }
-  .menu-item-left { flex: 1; }
-  .menu-item-name { font-size: 13px; font-weight: 500; color: var(--bark); margin-bottom: 3px; line-height: 1.4; }
-  .menu-item-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px; }
-  .diet-tag { font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 500; background: var(--gold-pale); color: var(--bark-mid); border: 1px solid rgba(212,168,67,0.25); }
-  .menu-item-price { font-size: 13px; font-weight: 500; color: var(--terracotta); white-space: nowrap; flex-shrink: 0; }
-  .sheet-footer { padding: 12px 20px 24px; flex-shrink: 0; border-top: 1px solid var(--border); background: var(--warm-white); }
-  .sheet-select-btn { width: 100%; background: var(--terracotta); color: white; border: none; padding: 15px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; }
-  .sheet-select-btn.selected-state { background: var(--bark); }
-  .steps { display: flex; flex-direction: column; gap: 20px; }
-  .step { display: flex; gap: 16px; align-items: flex-start; }
-  .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--terracotta-pale); color: var(--terracotta); font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1.5px solid var(--border-warm); }
-  .step-body { padding-top: 6px; }
-  .step-title { font-size: 15px; font-weight: 500; color: var(--bark); margin-bottom: 4px; }
-  .step-desc { font-size: 13px; color: var(--bark-mid); line-height: 1.6; }
-  .perks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .perk-card { background: var(--warm-white); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
-  .perk-icon { font-size: 20px; margin-bottom: 8px; display: block; }
-  .perk-title { font-size: 13px; font-weight: 500; color: var(--bark); margin-bottom: 4px; }
-  .perk-desc { font-size: 12px; color: var(--bark-light); line-height: 1.5; }
-  .order-section { background: var(--bark); color: white; }
-  .order-section .section-eyebrow { color: var(--gold); }
-  .order-section .section-title { color: white; }
-  .order-section .section-sub { color: rgba(255,255,255,0.6); }
-  .form-group { margin-bottom: 14px; }
-  .form-label { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.7); margin-bottom: 6px; display: block; letter-spacing: 0.3px; }
-  .form-input { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 13px 16px; font-family: 'DM Sans', sans-serif; font-size: 15px; color: white; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
-  .form-input::placeholder { color: rgba(255,255,255,0.3); }
-  .form-input:focus { border-color: var(--terracotta-light); }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .cuisine-summary { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; min-height: 52px; }
-  .cuisine-summary-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 8px; letter-spacing: 0.3px; }
-  .cuisine-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .cuisine-tag { background: var(--terracotta); color: white; font-size: 11px; padding: 3px 10px; border-radius: 100px; font-weight: 500; }
-  .cuisine-empty { font-size: 13px; color: rgba(255,255,255,0.3); font-style: italic; }
-  .submit-btn { width: 100%; background: var(--terracotta); color: white; border: none; padding: 16px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 6px; }
-  .submit-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 12px; line-height: 1.5; }
-  .success-state { display: none; text-align: center; padding: 32px 0; }
-  .success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--sage); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; }
-  .success-title { font-family: 'Playfair Display', serif; font-size: 24px; color: white; margin-bottom: 10px; }
-  .success-sub { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
-  footer { background: var(--bark); color: rgba(255,255,255,0.5); padding: 28px 24px; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); }
-  .footer-logo { font-family: 'Playfair Display', serif; font-size: 18px; color: white; margin-bottom: 8px; }
-  .footer-logo span { color: var(--terracotta-light); }
-  .footer-links { display: flex; justify-content: center; gap: 20px; margin-bottom: 16px; flex-wrap: wrap; }
-  .footer-links a { font-size: 13px; color: rgba(255,255,255,0.4); text-decoration: none; }
-  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
-  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bark); color: white; padding: 12px 20px; border-radius: 100px; font-size: 13px; font-weight: 500; z-index: 999; transition: transform 0.3s ease; white-space: nowrap; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-  .hero h1 { animation: fadeUp 0.5s ease both; }
-  .hero p { animation: fadeUp 0.5s 0.08s ease both; }
-  .hero-btns { animation: fadeUp 0.5s 0.16s ease both; }
-</style>
-</head>
-<body>
+const { useState, useEffect, useRef } = React;
 
-<nav>
-  <div class="nav-logo">The Full <span>Spread</span></div>
-  <button class="nav-cta" onclick="scrollToOrder()">Get a quote</button>
-</nav>
-
-<div class="hero">
-  <div class="hero-tag"><span class="hero-tag-dot"></span>every event, every craving, covered</div>
-  <h1>Catering from the <em>cuisines</em> you love</h1>
-  <p>The Full Spread brings together the best local flavors into one seamless catering experience — delivered to your office, event, or space.</p>
-  <div class="hero-btns">
-    <button class="btn-primary" onclick="scrollToOrder()">Get a quote</button>
-    <button class="btn-ghost" onclick="scrollToCuisines()">Explore cuisines</button>
-  </div>
-</div>
-
-<div class="stats">
-  <div class="stat"><div class="stat-num">9</div><div class="stat-label">Cuisines</div></div>
-  <div class="stat"><div class="stat-num">1</div><div class="stat-label">Easy order</div></div>
-  <div class="stat"><div class="stat-num">0</div><div class="stat-label">Hassle</div></div>
-</div>
-
-<section id="cuisines">
-  <div class="section-eyebrow">the menu</div>
-  <div class="section-title">Nine cuisines. One order.</div>
-  <div class="section-sub">Tap to select what your team wants. Hit the <strong style="color:var(--bark)">i</strong> button to browse the full menu.</div>
-  <div class="cuisine-grid">
-    <div class="cuisine-card" data-cuisine="Breakfast" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Breakfast')">i</button><span class="cuisine-emoji">🍳</span><div class="cuisine-name">Breakfast</div><div class="cuisine-sub">Morning spreads</div></div>
-    <div class="cuisine-card" data-cuisine="Thai" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Thai')">i</button><span class="cuisine-emoji">🍜</span><div class="cuisine-name">Thai</div><div class="cuisine-sub">Noodles & curries</div></div>
-    <div class="cuisine-card" data-cuisine="Hawaiian BBQ" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Hawaiian BBQ')">i</button><span class="cuisine-emoji">🍖</span><div class="cuisine-name">Hawaiian BBQ</div><div class="cuisine-sub">Plates & grills</div></div>
-    <div class="cuisine-card" data-cuisine="Poke Bowls" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Poke Bowls')">i</button><span class="cuisine-emoji">🐟</span><div class="cuisine-name">Poke Bowls</div><div class="cuisine-sub">Fresh bowls</div></div>
-    <div class="cuisine-card" data-cuisine="Mexican" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Mexican')">i</button><span class="cuisine-emoji">🌮</span><div class="cuisine-name">Mexican</div><div class="cuisine-sub">Tacos & burritos</div></div>
-    <div class="cuisine-card" data-cuisine="Chinese" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Chinese')">i</button><span class="cuisine-emoji">🥡</span><div class="cuisine-name">Chinese</div><div class="cuisine-sub">Stir fry & dim sum</div></div>
-    <div class="cuisine-card" data-cuisine="Mediterranean" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Mediterranean')">i</button><span class="cuisine-emoji">🥙</span><div class="cuisine-name">Mediterranean</div><div class="cuisine-sub">Mezze & wraps</div></div>
-    <div class="cuisine-card" data-cuisine="Indian" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Indian')">i</button><span class="cuisine-emoji">🍛</span><div class="cuisine-name">Indian</div><div class="cuisine-sub">Curries & rice</div></div>
-    <div class="cuisine-card" data-cuisine="Sushi" onclick="toggleCuisine(this)"><button class="cuisine-info-btn" onclick="openSheet(event,'Sushi')">i</button><span class="cuisine-emoji">🍱</span><div class="cuisine-name">Sushi</div><div class="cuisine-sub">Rolls & platters</div></div>
-  </div>
-</section>
-
-<section>
-  <div class="section-eyebrow">how it works</div>
-  <div class="section-title">Simple from start to finish</div>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><div class="step-body"><div class="step-title">Choose your cuisines</div><div class="step-desc">Tap what your team is craving — or tell us your preferences and we'll suggest a mix.</div></div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-body"><div class="step-title">We handle the rest</div><div class="step-desc">We coordinate across kitchens, package everything cleanly, and deliver it all together — one drop, one time.</div></div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-body"><div class="step-title">Your team eats well</div><div class="step-desc">Hot, fresh, and labeled. No mess, no guesswork. Good food that shows up when it's supposed to.</div></div></div>
-  </div>
-</section>
-
-<section>
-  <div class="section-eyebrow">why us</div>
-  <div class="section-title">Built for offices & events</div>
-  <div class="perks-grid">
-    <div class="perk-card"><span class="perk-icon">🍽️</span><div class="perk-title">Multi-cuisine orders</div><div class="perk-desc">Something for everyone — no compromising</div></div>
-    <div class="perk-card"><span class="perk-icon">⏱️</span><div class="perk-title">Reliable delivery</div><div class="perk-desc">On time, every time — across all kitchens</div></div>
-    <div class="perk-card"><span class="perk-icon">🥦</span><div class="perk-title">Dietary options</div><div class="perk-desc">Vegan, gluten-free, halal — all labeled</div></div>
-    <div class="perk-card"><span class="perk-icon">🧾</span><div class="perk-title">Easy invoicing</div><div class="perk-desc">One invoice per order, no matter what</div></div>
-    <div class="perk-card"><span class="perk-icon">📐</span><div class="perk-title">Flexible minimums</div><div class="perk-desc">10 or 200 people — we scale with you</div></div>
-    <div class="perk-card"><span class="perk-icon">💬</span><div class="perk-title">Real support</div><div class="perk-desc">A real person handles every order</div></div>
-  </div>
-</section>
-
-<section class="order-section" id="order">
-  <div class="section-eyebrow">get a quote</div>
-  <div class="section-title">Let's get everyone fed</div>
-  <div class="section-sub">Fill this out and we'll get back to you within the hour — via text and email.</div>
-  <div id="formState">
-    <div class="cuisine-summary">
-      <div class="cuisine-summary-label">SELECTED CUISINES</div>
-      <div class="cuisine-tags" id="selectedTags"><span class="cuisine-empty">None selected yet — tap the cards above</span></div>
-    </div>
-    <div class="form-group"><label class="form-label">YOUR NAME</label><input class="form-input" type="text" id="fname" placeholder="First and last name"></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">EMAIL</label><input class="form-input" type="email" id="femail" placeholder="you@email.com"></div>
-      <div class="form-group"><label class="form-label">PHONE / WHATSAPP</label><input class="form-input" type="tel" id="fphone" placeholder="+1 (000) 000-0000"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">EVENT DATE</label><input class="form-input" type="date" id="fdate"></div>
-      <div class="form-group"><label class="form-label">HEADCOUNT</label><input class="form-input" type="number" id="fcount" placeholder="e.g. 25"></div>
-    </div>
-    <div class="form-group"><label class="form-label">DELIVERY ADDRESS</label><input class="form-input" type="text" id="faddress" placeholder="Event address"></div>
-    <div class="form-group"><label class="form-label">ANYTHING ELSE?</label><textarea class="form-input" id="fnotes" rows="3" placeholder="Dietary restrictions, timing, special requests..."></textarea></div>
-    <button class="submit-btn" onclick="submitQuote()">Send my quote request</button>
-    <p class="submit-note">We'll reach out via text and email within the hour.</p>
-  </div>
-  <div class="success-state" id="successState">
-    <div class="success-icon">✓</div>
-    <div class="success-title">Quote request sent!</div>
-    <div class="success-sub">We'll be in touch within the hour via text and email. Looking forward to feeding your team.</div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">The Full <span>Spread</span></div>
-  <div class="footer-links"><a href="#">Instagram</a><a href="#">WhatsApp</a><a href="mailto:hello@thefullspread.com">Email us</a></div>
-  <div class="footer-copy">© 2026 The Full Spread. All rights reserved.</div>
-</footer>
-
-<div class="sheet-overlay" id="sheetOverlay" onclick="closeSheet()"></div>
-<div class="bottom-sheet" id="bottomSheet">
-  <div class="sheet-handle"></div>
-  <div class="sheet-header">
-    <div><div class="sheet-title" id="sheetTitle"></div><div class="sheet-restaurant" id="sheetRestaurant"></div></div>
-    <button class="sheet-close" onclick="closeSheet()">✕</button>
-  </div>
-  <div class="sheet-body" id="sheetBody"></div>
-  <div class="sheet-footer"><button class="sheet-select-btn" id="sheetSelectBtn" onclick="selectFromSheet()"></button></div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-const selected = new Set();
-const menus = {
+// ═══════════════════════════════════════════════════════════════════
+// MENU DATA
+// ═══════════════════════════════════════════════════════════════════
+const MENUS = {
   "Breakfast": {
-    restaurant: "Fresh morning spreads, hot platters & build-your-own breakfast packages",
+    tagline: "Morning spreads, hot platters & build-your-own",
+    hue: 38,
     categories: [
       { name: "Packages", items: [
-        { name: "Breakfast Sandwich Package", price: "$11.99 · Min 10" },
-        { name: "Breakfast Burritos Package", price: "$15.99 · Min 5" },
-        { name: "BYO Classic Breakfast Package", price: "$19 · Min 5" },
-        { name: "BYO Mexican Breakfast Package", price: "$19.50 · Min 10" },
-        { name: "Overnight Oats Set", price: "$6 · Min 10" }
+        { name: "Breakfast Sandwich Package", price: "$11.99", note: "Min 10" },
+        { name: "Breakfast Burritos Package", price: "$15.99", note: "Min 5" },
+        { name: "BYO Classic Breakfast", price: "$19", note: "Min 5" },
+        { name: "BYO Mexican Breakfast", price: "$19.50", note: "Min 10" },
+        { name: "Overnight Oats Set", price: "$6", note: "Min 10" }
       ]},
-      { name: "Eggs", items: [{ name: "Egg Breakfast Platter", price: "$80" }]},
-      { name: "Proteins", items: [
+      { name: "Eggs & Proteins", items: [
+        { name: "Egg Breakfast Platter", price: "$80" },
         { name: "Applewood Bacon Platter", price: "$75" },
         { name: "Al Pastor Mushroom Platter", price: "$90" },
         { name: "Braised Beef Platter", price: "$100" },
@@ -259,7 +25,7 @@ const menus = {
       { name: "Sides & Toppings", items: [
         { name: "Sliced Avocado Platter", price: "$55" },
         { name: "Tater Tots Platter", price: "$55" },
-        { name: "Shredded Cheddar Cheese Platter", price: "$35" },
+        { name: "Shredded Cheddar Platter", price: "$35" },
         { name: "Oaxaca Cheese Platter", price: "$45" },
         { name: "Black Beans Platter", price: "$45" },
         { name: "Pico de Gallo Platter", price: "$35" },
@@ -268,465 +34,2200 @@ const menus = {
     ]
   },
   "Thai": {
-    restaurant: "Authentic Thai noodles, curries, stir fry & fresh vegetable platters",
+    tagline: "Authentic noodles, curries, stir fry & vegetables",
+    hue: 142,
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Popular Large Package", price: "$525 · Serves 30" },
-        { name: "Popular Medium Package", price: "$410 · Serves 20" },
-        { name: "Popular Small Package", price: "$315 · Serves 10" }
+        { name: "Popular Large Package", price: "$525", note: "Serves 30" },
+        { name: "Popular Medium Package", price: "$410", note: "Serves 20" },
+        { name: "Popular Small Package", price: "$315", note: "Serves 10" }
       ]},
       { name: "Party Bundles", items: [
-        { name: "12–16 Person Party Bundle", price: "$315 · 2 Entrees + 2 Apps/Veg" },
-        { name: "18–22 Person Party Bundle", price: "$410 · 3 Entrees + 3 Apps/Veg" },
-        { name: "26–30 Person Party Bundle", price: "$525 · 3 Entrees + 3 Apps/Veg" }
+        { name: "12–16 Person Bundle", price: "$315", note: "2 entrees + 2 apps" },
+        { name: "18–22 Person Bundle", price: "$410", note: "3 entrees + 3 apps" },
+        { name: "26–30 Person Bundle", price: "$525", note: "3 entrees + 3 apps" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Pan Fried Pork Dumplings Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$50" },
-        { name: "Pan Fried Spinach Dumplings Platter (30 pcs)", tags: ["V","VG","DF","EF","NF"], price: "$75" },
-        { name: "Crispy Shrimp Wonton Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$85" },
-        { name: "Crispy Vegetable Spring Rolls Platter (30 pcs)", tags: ["V","VG","DF","EF","NF"], price: "$75" },
-        { name: "Satay Chicken Skewers Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$80" }
+        { name: "Pan Fried Pork Dumplings (30 pcs)", tags: ["DF","NF"], price: "$50" },
+        { name: "Pan Fried Spinach Dumplings (30 pcs)", tags: ["V","VG","DF"], price: "$75" },
+        { name: "Crispy Shrimp Wontons (30 pcs)", tags: ["DF","NF"], price: "$85" },
+        { name: "Vegetable Spring Rolls (30 pcs)", tags: ["V","VG","DF"], price: "$75" },
+        { name: "Satay Chicken Skewers (30 pcs)", tags: ["DF","NF"], price: "$80" }
       ]},
       { name: "Mains", items: [
         { name: "Chili Garlic Platter", price: "$105" },
-        { name: "Spicy Basil Platter", tags: ["DF","EF","GF","NF"], price: "$105" },
+        { name: "Spicy Basil Platter", tags: ["DF","GF"], price: "$105" },
         { name: "Pad Thai Platter", tags: ["V","DF","GF"], price: "$105" },
-        { name: "Pad See Ew Platter", tags: ["DF","NF"], price: "$105" },
-        { name: "Drunken Noodle Platter", tags: ["DF","NF"], price: "$105" },
-        { name: "Indonesian Mee Goreng Platter", tags: ["V","DF","NF"], price: "$105" },
-        { name: "Thai Style Fried Rice Platter", tags: ["DF","NF"], price: "$105" },
-        { name: "Basil Fried Rice Platter", tags: ["DF","GF","NF"], price: "$105" }
+        { name: "Pad See Ew Platter", tags: ["DF"], price: "$105" },
+        { name: "Drunken Noodle Platter", tags: ["DF"], price: "$105" },
+        { name: "Mee Goreng Platter", tags: ["V","DF"], price: "$105" },
+        { name: "Thai Fried Rice Platter", tags: ["DF"], price: "$105" },
+        { name: "Basil Fried Rice Platter", tags: ["DF","GF"], price: "$105" }
       ]},
       { name: "Vegetables", items: [
-        { name: "Baby Bok Choy Platter", tags: ["DF","EF","GF","NF"], price: "$80" },
-        { name: "Chinese Broccoli Platter", tags: ["DF","EF","NF"], price: "$85" },
-        { name: "American Broccoli Platter", tags: ["V","VG","DF","EF","NF"], price: "$80" }
+        { name: "Baby Bok Choy Platter", tags: ["DF","GF"], price: "$80" },
+        { name: "Chinese Broccoli Platter", tags: ["DF"], price: "$85" },
+        { name: "American Broccoli Platter", tags: ["V","VG","DF"], price: "$80" }
       ]}
     ]
   },
   "Hawaiian BBQ": {
-    restaurant: "Island-inspired Hawaiian BBQ with bold proteins, rice bowls & tropical sides",
+    tagline: "Island-inspired BBQ, rice bowls & tropical sides",
+    hue: 12,
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Popular Small Package", price: "$250 · Serves 10" },
-        { name: "Popular Medium Package", price: "$415 · Serves 20" },
-        { name: "Popular Large Package", price: "$530 · Serves 30" },
-        { name: "Gluten Free Package", price: "$555 · Serves 30" },
-        { name: "Fish & Plant Friendly Large Package", price: "$545 · BBQ chicken, salmon, tofu, rice, greens, corn, sweet potato, seaweed salad, cucumber & sauces" }
+        { name: "Small Package", price: "$250", note: "Serves 10" },
+        { name: "Medium Package", price: "$415", note: "Serves 20" },
+        { name: "Large Package", price: "$530", note: "Serves 30" },
+        { name: "Gluten Free Package", price: "$555", note: "Serves 30" },
+        { name: "Fish & Plant Friendly Large", price: "$545", note: "Serves 30" }
       ]},
       { name: "Build Your Own", items: [
-        { name: "Large (Build Your Own)", price: "$520 · ~30 people · 3 Bases, 3 Proteins, 4 Sides, 3 Sauces" },
-        { name: "Medium (Build Your Own)", price: "$395 · ~20 people · 2 Bases, 2 Proteins, 3 Sides, 2 Sauces" },
-        { name: "Small (Build Your Own)", price: "$250 · ~10 people · 1 Base, 1 Protein, 2 Sides, 1 Sauce" }
+        { name: "Large BYO", price: "$520", note: "~30 ppl · 3 base, 3 protein" },
+        { name: "Medium BYO", price: "$395", note: "~20 ppl · 2 base, 2 protein" },
+        { name: "Small BYO", price: "$250", note: "~10 ppl · 1 base, 1 protein" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Boneless Aloha Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$85" },
-        { name: "Spam Musubi Platter", tags: ["DF","EF","GF","NF"], price: "$75" },
-        { name: "Traditional Aloha Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$85" },
-        { name: "Shishito Peppers", tags: ["V","VG","DF","EF","GF","NF"], price: "$95" }
-      ]},
-      { name: "Base", items: [
-        { name: "White Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$45" },
-        { name: "Brown Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$55" },
-        { name: "Egg Fried Rice Platter", tags: ["V","DF","NF"], price: "$45" },
-        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$45" },
-        { name: "Spring Mix Salad Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$45" }
+        { name: "Boneless Aloha Wings (30 pcs)", tags: ["DF","NF"], price: "$85" },
+        { name: "Spam Musubi Platter", tags: ["DF","GF"], price: "$75" },
+        { name: "Traditional Aloha Wings (30 pcs)", tags: ["DF","NF"], price: "$85" },
+        { name: "Shishito Peppers", tags: ["V","VG","DF","GF"], price: "$95" }
       ]},
       { name: "Protein", items: [
-        { name: "Bulgogi Beef Platter", tags: ["DF","EF","NF"], price: "$115" },
-        { name: "Crispy Garlic Tofu Platter", tags: ["V","VG","DF","EF","NF"], price: "$85" },
-        { name: "Chicken Katsu Platter", tags: ["DF","EF","NF"], price: "$95" },
-        { name: "Teriyaki Salmon Platter", tags: ["EF","NF"], price: "$135" },
-        { name: "Garlic Salmon Platter", price: "$135" },
-        { name: "Pork Katsu Platter", tags: ["DF","EF","NF"], price: "$95" },
-        { name: "BBQ Chicken Platter", tags: ["DF","EF","GF","NF"], price: "$105" },
-        { name: "Shrimp Tempura Platter", price: "$110" },
-        { name: "Braised Pork Belly", tags: ["DF","EF","GF","NF"], price: "$95" }
+        { name: "Bulgogi Beef", tags: ["DF","NF"], price: "$115" },
+        { name: "Crispy Garlic Tofu", tags: ["V","VG","DF"], price: "$85" },
+        { name: "Chicken Katsu", tags: ["DF","NF"], price: "$95" },
+        { name: "Teriyaki Salmon", tags: ["NF"], price: "$135" },
+        { name: "Garlic Salmon", price: "$135" },
+        { name: "BBQ Chicken", tags: ["DF","GF","NF"], price: "$105" },
+        { name: "Shrimp Tempura", price: "$110" },
+        { name: "Braised Pork Belly", tags: ["DF","GF","NF"], price: "$95" }
       ]},
       { name: "Sides", items: [
-        { name: "Seaweed Salad Platter", tags: ["V","DF","EF","NF"], price: "$50" },
-        { name: "Hawaiian Macaroni Salad Platter", price: "$55" },
-        { name: "Roasted Corn Platter", tags: ["V","EF","GF"], price: "$55" },
-        { name: "Sweet Potato Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$65" },
-        { name: "Coleslaw Platter", tags: ["V","DF","GF","NF"], price: "$55" },
-        { name: "Crab Salad Platter", price: "$50" },
-        { name: "Mac & Cheese Platter", tags: ["V","EF","NF"], price: "$85" }
+        { name: "Seaweed Salad", tags: ["V","DF","NF"], price: "$50" },
+        { name: "Hawaiian Mac Salad", price: "$55" },
+        { name: "Roasted Corn", tags: ["V","GF"], price: "$55" },
+        { name: "Sweet Potato", tags: ["V","VG","DF","GF"], price: "$65" },
+        { name: "Coleslaw", tags: ["V","DF","GF"], price: "$55" },
+        { name: "Mac & Cheese", tags: ["V","NF"], price: "$85" }
       ]}
     ]
   },
   "Poke Bowls": {
-    restaurant: "Fresh poke bowls with premium fish, crispy proteins & flavorful toppings",
+    tagline: "Premium fish, crispy proteins & flavorful toppings",
+    hue: 195,
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Popular Small Package", price: "$21.50/pp · Min 10" },
-        { name: "Popular Medium Package", price: "$20.95/pp · Min 20" },
-        { name: "Popular Large Package", price: "$20.50/pp · Min 30" },
-        { name: "Gluten Free Large Package", price: "$20.50/pp · Min 30" },
-        { name: "Fish/Plant Friendly Large Package", price: "$20.50/pp · Min 20" }
+        { name: "Small Package", price: "$21.50/pp", note: "Min 10" },
+        { name: "Medium Package", price: "$20.95/pp", note: "Min 20" },
+        { name: "Large Package", price: "$20.50/pp", note: "Min 30" },
+        { name: "Gluten Free Large", price: "$20.50/pp", note: "Min 30" },
+        { name: "Fish/Plant Friendly", price: "$20.50/pp", note: "Min 20" }
       ]},
-      { name: "Package Includes", items: [
-        { name: "Base: White Rice, Spring Mix Salad", price: "" },
-        { name: "Poke: Ahi Tuna, Spicy Salmon", price: "" },
-        { name: "Toppings: Edamame, Roasted Corn, Seaweed Salad, Mango, Kani Salad, Onion Crisps", price: "" },
-        { name: "Sauce: Don Poke Sauce, Yuzu Ponzu", price: "" }
-      ]},
-      { name: "Appetizers", items: [
-        { name: "Spam Musubi Platter", tags: ["DF","EF","GF","NF"], price: "$75" },
-        { name: "Hawaiian Garlic Chicken Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$75" },
-        { name: "Hawaiian Garlic Boneless Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$75" }
-      ]},
-      { name: "Base", items: [
-        { name: "Egg Fried Rice Platter", tags: ["V","DF","NF"], price: "$45" },
-        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$45" },
-        { name: "White Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$45" }
+      { name: "Includes", items: [
+        { name: "Base · White Rice, Spring Mix", price: "—" },
+        { name: "Poke · Ahi Tuna, Spicy Salmon", price: "—" },
+        { name: "Toppings · Edamame, Corn, Seaweed, Mango, Kani, Onion Crisps", price: "—" },
+        { name: "Sauce · Don Poke, Yuzu Ponzu", price: "—" }
       ]},
       { name: "Protein", items: [
-        { name: "Crispy Garlic Tofu Platter", tags: ["V","VG","DF","EF","NF"], price: "$85" },
-        { name: "Ahi Tuna Platter", tags: ["DF","EF","NF"], price: "$155" },
-        { name: "Spicy Salmon Platter", tags: ["DF","EF","NF"], price: "$155" },
-        { name: "Classic Salmon Platter", tags: ["DF","EF","GF"], price: "$155" },
-        { name: "Spicy Tuna Platter", tags: ["DF","EF","GF","NF"], price: "$155" },
-        { name: "Yuzu Salmon & Tuna Platter", price: "$155" }
+        { name: "Crispy Garlic Tofu", tags: ["V","VG","DF"], price: "$85" },
+        { name: "Ahi Tuna", tags: ["DF","NF"], price: "$155" },
+        { name: "Spicy Salmon", tags: ["DF","NF"], price: "$155" },
+        { name: "Classic Salmon", tags: ["DF","GF"], price: "$155" },
+        { name: "Spicy Tuna", tags: ["DF","GF"], price: "$155" },
+        { name: "Yuzu Salmon & Tuna", price: "$155" }
       ]},
-      { name: "Salads & Sides", items: [
-        { name: "Hawaiian Macaroni Salad Platter", tags: ["V","DF","NF"], price: "$55" },
-        { name: "Seaweed Salad Platter", tags: ["V","VG","DF","EF","NF"], price: "$45" },
-        { name: "Mango Crunch Salad Platter", tags: ["DF","EF","NF"], price: "$65" },
-        { name: "Spicy Crab Salad Platter", tags: ["DF","NF"], price: "$45" }
+      { name: "Sides", items: [
+        { name: "Hawaiian Mac Salad", tags: ["V","DF"], price: "$55" },
+        { name: "Seaweed Salad", tags: ["V","VG","DF"], price: "$45" },
+        { name: "Mango Crunch Salad", tags: ["DF","NF"], price: "$65" },
+        { name: "Spicy Crab Salad", tags: ["DF"], price: "$45" }
       ]}
     ]
   },
   "Mexican": {
-    restaurant: "Vibrant Mexican catering with bold proteins, house salsas & fresh toppings",
+    tagline: "Bold proteins, house salsas & fresh toppings",
+    hue: 25,
     categories: [
       { name: "Signature Packages", items: [
-        { name: "Single Protein Package", price: "$18/pp · Min 10" },
-        { name: "Double Protein Package", price: "$20/pp · Min 10" },
-        { name: "Triple Protein Package", price: "$22/pp · Min 10" }
+        { name: "Single Protein", price: "$18/pp", note: "Min 10" },
+        { name: "Double Protein", price: "$20/pp", note: "Min 10" },
+        { name: "Triple Protein", price: "$22/pp", note: "Min 10" }
       ]},
-      { name: "Package Includes", items: [
-        { name: "Poblano Chicken, Barbacoa Beef, Al Pastor Pork", price: "" },
-        { name: "Mexican Rice, Black Beans, Poblano Fajita Veggies", price: "" },
-        { name: "Sweet Potatoes, Corn, Oaxaca Cheese", price: "" },
-        { name: "Lime Crema, Red & Green Salsa, Tortillas", price: "" }
-      ]},
-      { name: "Appetizer", items: [
-        { name: "Chips & Guac + Dips Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$55" }
-      ]},
-      { name: "Base", items: [
-        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$45" },
-        { name: "Mexican Rice Platter", tags: ["V","VG","GF"], price: "$45" }
+      { name: "Includes", items: [
+        { name: "Poblano Chicken, Barbacoa, Al Pastor", price: "—" },
+        { name: "Mexican Rice, Black Beans, Fajita Veggies", price: "—" },
+        { name: "Sweet Potatoes, Corn, Oaxaca Cheese", price: "—" },
+        { name: "Lime Crema, Red & Green Salsa, Tortillas", price: "—" }
       ]},
       { name: "Protein", items: [
-        { name: "Fable Al Pastor Shiitake Mushroom Platter", tags: ["V"], price: "$95" },
-        { name: "Al Pastor Pork Platter", tags: ["GF"], price: "$85" },
-        { name: "Barbacoa Beef Platter", tags: ["GF"], price: "$95" },
-        { name: "Chicken Platter", tags: ["GF"], price: "$85" },
-        { name: "Yucatan Shrimp Platter", tags: ["GF"], price: "$105" }
+        { name: "Fable Al Pastor Mushroom", tags: ["V"], price: "$95" },
+        { name: "Al Pastor Pork", tags: ["GF"], price: "$85" },
+        { name: "Barbacoa Beef", tags: ["GF"], price: "$95" },
+        { name: "Chicken", tags: ["GF"], price: "$85" },
+        { name: "Yucatan Shrimp", tags: ["GF"], price: "$105" }
       ]},
       { name: "Toppings", items: [
-        { name: "Roasted Corn Platter", tags: ["V","GF"], price: "$35" },
-        { name: "Guacamole Platter", tags: ["V","GF"], price: "$55" },
-        { name: "Oaxaca Cheese Platter", tags: ["GF"], price: "$35" },
-        { name: "Pickled Red Onions Platter", tags: ["V","GF"], price: "$25" },
-        { name: "Pico de Gallo Platter", tags: ["V","GF"], price: "$35" },
-        { name: "Fajita Veggies Platter", tags: ["V","GF"], price: "$35" },
-        { name: "Black Beans Platter", tags: ["V","VG","GF"], price: "$45" },
-        { name: "Pinto Beans Platter", tags: ["V","VG","GF"], price: "$45" }
+        { name: "Roasted Corn", tags: ["V","GF"], price: "$35" },
+        { name: "Guacamole", tags: ["V","GF"], price: "$55" },
+        { name: "Oaxaca Cheese", tags: ["GF"], price: "$35" },
+        { name: "Pickled Red Onions", tags: ["V","GF"], price: "$25" },
+        { name: "Pico de Gallo", tags: ["V","GF"], price: "$35" },
+        { name: "Black Beans", tags: ["V","VG","GF"], price: "$45" },
+        { name: "Pinto Beans", tags: ["V","VG","GF"], price: "$45" }
       ]},
       { name: "Salsas", items: [
         { name: "Green Salsa — Mild", tags: ["V","GF"], price: "$15" },
         { name: "Red Salsa — Smoky", tags: ["V","GF"], price: "$15" },
         { name: "Lime Crema", tags: ["GF"], price: "$15" },
-        { name: "Chile De Arbol Salsa — Hot", tags: ["V","GF"], price: "$15" }
+        { name: "Chile De Arbol — Hot", tags: ["V","GF"], price: "$15" }
       ]}
     ]
   },
   "Chinese": {
-    restaurant: "Classic Chinese platters — dumplings, entrees, noodles & more",
+    tagline: "Dumplings, entrees, noodles & classic platters",
+    hue: 0,
     categories: [
-      { name: "BYO Packages", items: [
-        { name: "12–16 Person Party Bundle", price: "$325 · 2 Entrees + 2 Apps/Veg + 1 Base" },
-        { name: "18–22 Person Party Bundle", price: "$410 · 3 Entrees + 3 Apps/Veg + 2 Bases" },
-        { name: "26–30 Person Party Bundle", price: "$520 · 3 Entrees + 3 Apps/Veg + 2 Bases" }
+      { name: "BYO Bundles", items: [
+        { name: "12–16 Person", price: "$325", note: "2 entrees + 2 apps + 1 base" },
+        { name: "18–22 Person", price: "$410", note: "3 entrees + 3 apps + 2 bases" },
+        { name: "26–30 Person", price: "$520", note: "3 entrees + 3 apps + 2 bases" }
       ]},
-      { name: "Entree Platters", items: [
-        { name: "Mala Dry Pot Beef Platter", price: "$130" },
-        { name: "Signature Orange Chicken Platter", price: "$120" },
-        { name: "General Mao Chicken Platter", price: "$120" },
-        { name: "Impossible Mapo Tofu Platter", price: "$125" },
-        { name: "Chicken Broccoli Platter", price: "$120" },
-        { name: "Beef Broccoli Platter", price: "$120" },
-        { name: "Shrimp Broccoli Platter", price: "$135" },
-        { name: "Chicken & String Beans Platter", price: "$120" },
-        { name: "Shrimp & String Beans Platter", price: "$125" },
-        { name: "Beef & String Beans Platter", price: "$120" }
+      { name: "Entrees", items: [
+        { name: "Mala Dry Pot Beef", price: "$130" },
+        { name: "Signature Orange Chicken", price: "$120" },
+        { name: "General Mao Chicken", price: "$120" },
+        { name: "Impossible Mapo Tofu", price: "$125" },
+        { name: "Chicken Broccoli", price: "$120" },
+        { name: "Beef Broccoli", price: "$120" },
+        { name: "Shrimp Broccoli", price: "$135" },
+        { name: "Chicken & String Beans", price: "$120" },
+        { name: "Shrimp & String Beans", price: "$125" },
+        { name: "Beef & String Beans", price: "$120" }
       ]},
-      { name: "Rice Platters", items: [
-        { name: "Classic Fried Rice Platter", price: "$40" },
-        { name: "White Rice Platter", price: "$40" },
-        { name: "Brown Rice Platter", price: "$40" }
+      { name: "Rice", items: [
+        { name: "Classic Fried Rice", price: "$40" },
+        { name: "White Rice", price: "$40" },
+        { name: "Brown Rice", price: "$40" }
       ]},
-      { name: "Noodle Platters", items: [
-        { name: "Sichuan Dan Dan Noodles Platter", price: "$85" },
-        { name: "Char Kway Teow Noodles Platter", price: "$90" },
-        { name: "Lo Mein Noodles Platter", price: "$85" }
+      { name: "Noodles", items: [
+        { name: "Sichuan Dan Dan", price: "$85" },
+        { name: "Char Kway Teow", price: "$90" },
+        { name: "Lo Mein", price: "$85" }
       ]},
-      { name: "Appetizer Platters", items: [
-        { name: "Five Spice Pepper Wings Platter", price: "$75" },
-        { name: "Crispy Shrimp Wonton Platter", price: "$75" },
-        { name: "Homemade Steamed Pork & Chives Dumplings Platter", price: "$65" },
-        { name: "Homemade Fried Pork & Chives Dumplings Platter", price: "$65" },
-        { name: "Homemade Fried Vegetable Dumplings Platter", price: "$65" },
+      { name: "Appetizers", items: [
+        { name: "Five Spice Pepper Wings", price: "$75" },
+        { name: "Crispy Shrimp Wonton", price: "$75" },
+        { name: "Steamed Pork & Chives Dumplings", price: "$65" },
+        { name: "Fried Pork & Chives Dumplings", price: "$65" },
+        { name: "Fried Vegetable Dumplings", price: "$65" },
         { name: "Kung Pao Egg Roll", price: "$55" }
-      ]},
-      { name: "Vegetable Platters", items: [
-        { name: "Sauteed String Beans Platter", price: "$80" },
-        { name: "Baby Bok Choy Platter", price: "$80" },
-        { name: "Sauteed American Broccoli Platter", price: "$80" }
-      ]},
+      ]}
     ]
   },
   "Mediterranean": {
-    restaurant: "Mediterranean flavors with shawarma, falafel, mezze & vibrant sauces",
+    tagline: "Shawarma, falafel, mezze & vibrant sauces",
+    hue: 168,
     categories: [
       { name: "Catering Packages", items: [
-        { name: "BYO Feast Catering Package", price: "$660 · Serves 40 · 4 Base, 4 Protein, 6 Toppings, 4 Veggies, 4 Sauce" },
-        { name: "BYO Large Catering Package", price: "$530 · Serves 30 · 3 Base, 3 Protein, 4 Toppings, 4 Veggies, 3 Sauce" },
-        { name: "BYO Medium Catering Package", price: "$400 · Serves 20 · 2 Base, 2 Protein, 3 Toppings, 3 Veggies, 2 Sauce" },
-        { name: "BYO Small Catering Package", price: "$255 · Serves 10 · 1 Base, 1 Protein, 2 Toppings, 2 Veggies, 1 Sauce" }
+        { name: "BYO Feast", price: "$660", note: "Serves 40" },
+        { name: "BYO Large", price: "$530", note: "Serves 30" },
+        { name: "BYO Medium", price: "$400", note: "Serves 20" },
+        { name: "BYO Small", price: "$255", note: "Serves 10" }
       ]},
       { name: "Base", items: [
-        { name: "Brown Rice Pilaf", tags: ["V","CN","CX"], price: "$55" },
-        { name: "Basmati Rice", tags: ["V","CD"], price: "$45" },
-        { name: "Farro & Couscous", tags: ["V","CG","CE","CY"], price: "$65" }
+        { name: "Brown Rice Pilaf", tags: ["V"], price: "$55" },
+        { name: "Basmati Rice", tags: ["V"], price: "$45" },
+        { name: "Farro & Couscous", tags: ["V"], price: "$65" }
       ]},
       { name: "Protein", items: [
         { name: "Beef Shawarma", price: "$105" },
-        { name: "Harissa Chicken", tags: ["CN","CD","CX"], price: "$95" },
-        { name: "Falafel Hummus", tags: ["V","VG","CG","CX"], price: "$115" },
-        { name: "Pulled Mushroom Shawarma", tags: ["V","CY"], price: "$100" },
-        { name: "Roasted Salmon", tags: ["CS","CY"], price: "$135" }
+        { name: "Harissa Chicken", price: "$95" },
+        { name: "Falafel Hummus", tags: ["V","VG"], price: "$115" },
+        { name: "Pulled Mushroom Shawarma", tags: ["V"], price: "$100" },
+        { name: "Roasted Salmon", price: "$135" }
       ]},
       { name: "Sides", items: [
         { name: "Broccoli", tags: ["V","VG"], price: "$55" },
         { name: "Corn", price: "$55" },
         { name: "Sweet Potato", tags: ["V","VG"], price: "$65" },
-        { name: "Coleslaw", tags: ["V","CD","CE","CY"], price: "$55" },
-        { name: "Garlic Chicken Salad", tags: ["CG","CE","CY"], price: "$55" }
+        { name: "Coleslaw", tags: ["V"], price: "$55" },
+        { name: "Garlic Chicken Salad", price: "$55" }
       ]},
       { name: "Sauces & Dips", items: [
-        { name: "Spicy Tahini", tags: ["V","VG","CX"], price: "$20" },
-        { name: "Signature Hot Pepper Sauce", tags: ["V"], price: "$20" },
-        { name: "Harissa", tags: ["V","CY"], price: "$20" },
+        { name: "Spicy Tahini", tags: ["V","VG"], price: "$20" },
+        { name: "Hot Pepper Sauce", tags: ["V"], price: "$20" },
+        { name: "Harissa", tags: ["V"], price: "$20" },
         { name: "Cilantro Zhoug", tags: ["V","VG"], price: "$20" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Pita Chip Salad", tags: ["CG","CN","CD","CX"], price: "$55" },
-        { name: "Crispy Flatbread", tags: ["CG"], price: "$35" },
-        { name: "Zaatar Wings", tags: ["CX"], price: "$85" },
-        { name: "Feta Fries", tags: ["V","CG","CD","CX","CY"], price: "$50" },
-        { name: "Fries", tags: ["V","CG","CY"], price: "$45" },
-        { name: "Hummus & Pita Platter", tags: ["CG","CD","CX"], price: "$45" },
-        { name: "Tzatziki & Pita Platter", tags: ["CG","CD","CX"], price: "$45" }
+        { name: "Pita Chip Salad", price: "$55" },
+        { name: "Crispy Flatbread", price: "$35" },
+        { name: "Zaatar Wings", price: "$85" },
+        { name: "Feta Fries", tags: ["V"], price: "$50" },
+        { name: "Hummus & Pita", price: "$45" },
+        { name: "Tzatziki & Pita", price: "$45" }
       ]}
     ]
   },
   "Indian": {
-    restaurant: "Bold Indian catering with rich curries, tandoor apps & aromatic sides",
+    tagline: "Rich curries, tandoor apps & aromatic sides",
+    hue: 28,
     categories: [
       { name: "Catering Packages", items: [
-        { name: "Create-Your-Own Large Package", price: "$580 · Serves 30 · 3 Base, 3 Protein, 4 Veggie, 4 Toppings, 3 Sauce" },
-        { name: "Create-Your-Own Medium Package", price: "$420 · Serves 20 · 2 Base, 2 Protein, 3 Veggie, 3 Toppings, 2 Sauce" },
-        { name: "Create-Your-Own Small Package", price: "$260 · Serves 10 · 1 Base, 1 Protein, 2 Veggie, 2 Toppings, 1 Sauce" }
+        { name: "Large BYO", price: "$580", note: "Serves 30" },
+        { name: "Medium BYO", price: "$420", note: "Serves 20" },
+        { name: "Small BYO", price: "$260", note: "Serves 10" }
       ]},
       { name: "Base", items: [
-        { name: "Basmati Rice", tags: ["V","CD"], price: "$40" },
+        { name: "Basmati Rice", tags: ["V"], price: "$40" },
         { name: "Brown Rice + Lentils", tags: ["V"], price: "$50" },
-        { name: "Farro + Couscous", tags: ["V","CG","CE","CY"], price: "$65" }
+        { name: "Farro + Couscous", tags: ["V"], price: "$65" }
       ]},
       { name: "Protein", items: [
-        { name: "Chicken Tikka Masala", tags: ["CD"], price: "$100" },
-        { name: "Roasted Salmon", tags: ["CS","CY"], price: "$135" },
+        { name: "Chicken Tikka Masala", price: "$100" },
+        { name: "Roasted Salmon", price: "$135" },
         { name: "Green Chili Chicken", price: "$95" },
-        { name: "Smoky Chili Chicken", tags: ["CD"], price: "$95" },
-        { name: "Tikka Pulled Shiitake Mushroom", tags: ["CD","CY"], price: "$100" }
+        { name: "Smoky Chili Chicken", price: "$95" },
+        { name: "Tikka Pulled Shiitake", price: "$100" }
       ]},
       { name: "Sides", items: [
-        { name: "Chickpea Curry", tags: ["V","CD"], price: "$60" },
+        { name: "Chickpea Curry", tags: ["V"], price: "$60" },
         { name: "Roasted Broccoli", tags: ["V","VG"], price: "$55" },
         { name: "Corn", price: "$55" },
         { name: "Sweet Potato", tags: ["V","VG"], price: "$60" },
-        { name: "Coleslaw", tags: ["V","CD","CE","CY"], price: "$55" }
+        { name: "Coleslaw", tags: ["V"], price: "$55" }
       ]},
       { name: "Sauces", items: [
         { name: "Tamarind Chutney", price: "$20" },
         { name: "Cilantro Chutney", price: "$20" },
-        { name: "Cucumber Raita", tags: ["CD"], price: "$20" },
-        { name: "Cilantro Crema", tags: ["V","CD"], price: "$20" },
-        { name: "Shawarma White Sauce", tags: ["V","CD","CE","CY"], price: "$20" }
+        { name: "Cucumber Raita", price: "$20" },
+        { name: "Cilantro Crema", tags: ["V"], price: "$20" },
+        { name: "Shawarma White", tags: ["V"], price: "$20" }
       ]},
       { name: "Apps", items: [
-        { name: "Garlic Naan", tags: ["CD"], price: "$50" },
-        { name: "Roti", tags: ["CG","CS","CY"], price: "$45" },
-        { name: "Masala Wings", tags: ["CG","CD"], price: "$90" },
-        { name: "Mini Vegetable Samosa w/ Chutney", tags: ["V","CG"], price: "$65" }
+        { name: "Garlic Naan", price: "$50" },
+        { name: "Roti", price: "$45" },
+        { name: "Masala Wings", price: "$90" },
+        { name: "Vegetable Samosa", tags: ["V"], price: "$65" }
       ]}
     ]
   },
   "Sushi": {
-    restaurant: "Premium sushi catering — maki platters, nigiri packages & fresh appetizers",
+    tagline: "Premium maki platters, nigiri & fresh appetizers",
+    hue: 350,
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Get-Together Package", price: "$499 · Serves 10+" },
-        { name: "Bonfire Package", price: "$899 · Serves 25" },
-        { name: "Cocktail Package", price: "$1,549 · Serves 50" }
+        { name: "Get-Together", price: "$499", note: "Serves 10+" },
+        { name: "Bonfire", price: "$899", note: "Serves 25" },
+        { name: "Cocktail", price: "$1,549", note: "Serves 50" }
       ]},
       { name: "Maki Platters", items: [
-        { name: "Premium Kaisen Package", price: "$325 · 120 pcs · Serves 7-10 · Spicy Salmon, Yellowtail, Scallop, Blue Crab" },
-        { name: "Flaming Hot Package", price: "$270 · 120 pcs · Serves 7-10 · Spicy Tuna, Spicy Salmon, Spicy Yellowtail, Spicy Tempura Prawn" },
-        { name: "Herbivore Package", price: "$250 · 120 pcs · Serves 7-10 · Avocado-Cucumber, Avocado, Truffle-Avocado, Cucumber" },
-        { name: "The Naka Package", price: "$265 · 120 pcs · Serves 7-10 · Spicy Tuna, Salmon-Avocado, Eel-Cucumber, California" },
-        { name: "Salmon Lover's Package", price: "$260 · 120 pcs · Serves 7-10 · Spicy Salmon, Salmon, Salmon-Avocado, Salmon-Cucumber" },
-        { name: "Build Your Own Maki Package", price: "$265 · 20 rolls · Serves 7-10 · 5 rolls each, custom selection" }
+        { name: "Premium Kaisen", price: "$325", note: "120 pcs · serves 7-10" },
+        { name: "Flaming Hot", price: "$270", note: "120 pcs · serves 7-10" },
+        { name: "Herbivore", price: "$250", note: "120 pcs · serves 7-10" },
+        { name: "The Naka", price: "$265", note: "120 pcs · serves 7-10" },
+        { name: "Salmon Lover's", price: "$260", note: "120 pcs · serves 7-10" },
+        { name: "Build Your Own Maki", price: "$265", note: "20 rolls · serves 7-10" }
       ]},
-      { name: "Nigiri Packages", items: [
-        { name: "Nigiri Package", price: "$350 · 80 pcs · Serves 7-10 · Salmon, Tuna, Yellowtail, Unagi (20 each)" },
-        { name: "Premium Nigiri Package", price: "$420 · 80 pcs · Serves 7-10 · Salmon, Tuna, Yellowtail, Unagi, Scallop, Shrimp, Crab, Ikura (10 each)" },
-        { name: "Build Your Own Nigiri Package", price: "$55 · per 10 slices · Custom selection" }
+      { name: "Nigiri", items: [
+        { name: "Nigiri Package", price: "$350", note: "80 pcs · serves 7-10" },
+        { name: "Premium Nigiri", price: "$420", note: "80 pcs · serves 7-10" },
+        { name: "BYO Nigiri", price: "$55", note: "per 10 slices" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Seaweed Salad Platter", tags: ["V"], price: "$55" },
-        { name: "Kani Salad Platter", price: "$60" },
-        { name: "Potato Croquette & Yuzu Aioli Platter", tags: ["V"], price: "$75" },
-        { name: "Shishito Peppers & Yuzu Salt Platter", tags: ["V"], price: "$80" },
-        { name: "Pork Gyoza & Yuzu Ponzu Platter", price: "$80" },
-        { name: "Vegetable Gyoza & Yuzu Ponzu Platter", tags: ["V"], price: "$75" },
-        { name: "Cucumber Salad Platter", price: "$65" },
-        { name: "Truffle Edamame Platter", tags: ["V"], price: "$70" }
+        { name: "Seaweed Salad", tags: ["V"], price: "$55" },
+        { name: "Kani Salad", price: "$60" },
+        { name: "Potato Croquette", tags: ["V"], price: "$75" },
+        { name: "Shishito Peppers", tags: ["V"], price: "$80" },
+        { name: "Pork Gyoza", price: "$80" },
+        { name: "Vegetable Gyoza", tags: ["V"], price: "$75" },
+        { name: "Cucumber Salad", price: "$65" },
+        { name: "Truffle Edamame", tags: ["V"], price: "$70" }
       ]}
     ]
   }
 };
 
-let currentSheet = null;
+const CUISINES = [
+  { id: "Breakfast",     glyph: "01", short: "Mornings",    desc: "Hot platters · BYO" },
+  { id: "Thai",          glyph: "02", short: "Bangkok",     desc: "Curry · pad thai" },
+  { id: "Hawaiian BBQ",  glyph: "03", short: "Aloha",       desc: "Grills · plate lunch" },
+  { id: "Poke Bowls",    glyph: "04", short: "Bowls",       desc: "Ahi · spicy salmon" },
+  { id: "Mexican",       glyph: "05", short: "CDMX",        desc: "Tacos · barbacoa" },
+  { id: "Chinese",       glyph: "06", short: "Sichuan",     desc: "Mapo · dumplings" },
+  { id: "Mediterranean", glyph: "07", short: "Levant",      desc: "Shawarma · mezze" },
+  { id: "Indian",        glyph: "08", short: "Tikka",       desc: "Tandoor · curry" },
+  { id: "Sushi",         glyph: "09", short: "Edomae",      desc: "Maki · nigiri" },
+];
 
-function toggleCuisine(card) {
-  const cuisine = card.dataset.cuisine;
-  if (selected.has(cuisine)) { selected.delete(cuisine); card.classList.remove('selected'); }
-  else { selected.add(cuisine); card.classList.add('selected'); }
-  updateTags();
-  updateSheetBtn();
-}
-
-function updateTags() {
-  const container = document.getElementById('selectedTags');
-  container.innerHTML = selected.size === 0
-    ? '<span class="cuisine-empty">None selected yet — tap the cards above</span>'
-    : [...selected].map(c => `<span class="cuisine-tag">${c}</span>`).join('');
-}
-
-function openSheet(e, cuisine) {
-  e.stopPropagation();
-  currentSheet = cuisine;
-  const data = menus[cuisine];
-  document.getElementById('sheetTitle').textContent = cuisine;
-  document.getElementById('sheetRestaurant').textContent = data.restaurant;
-  let html = '';
-  data.categories.forEach(cat => {
-    html += `<div class="sheet-category"><div class="sheet-cat-title">${cat.name}</div>`;
-    cat.items.forEach(item => {
-      const tags = item.tags ? item.tags.map(t => `<span class="diet-tag">${t}</span>`).join('') : '';
-      html += `<div class="menu-item"><div class="menu-item-left"><div class="menu-item-name">${item.name}</div>${tags ? `<div class="menu-item-tags">${tags}</div>` : ''}</div><div class="menu-item-price">${item.price}</div></div>`;
-    });
-    html += '</div>';
-  });
-  document.getElementById('sheetBody').innerHTML = html;
-  updateSheetBtn();
-  document.getElementById('sheetOverlay').classList.add('open');
-  document.getElementById('bottomSheet').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function updateSheetBtn() {
-  const btn = document.getElementById('sheetSelectBtn');
-  if (!btn || !currentSheet) return;
-  if (selected.has(currentSheet)) { btn.textContent = `Remove ${currentSheet}`; btn.classList.add('selected-state'); }
-  else { btn.textContent = `Add ${currentSheet} to my order`; btn.classList.remove('selected-state'); }
-}
-
-function selectFromSheet() {
-  if (!currentSheet) return;
-  const card = document.querySelector(`.cuisine-card[data-cuisine="${currentSheet}"]`);
-  if (card) toggleCuisine(card);
-  updateSheetBtn();
-}
-
-function closeSheet() {
-  document.getElementById('sheetOverlay').classList.remove('open');
-  document.getElementById('bottomSheet').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function scrollToOrder() { document.getElementById('order').scrollIntoView({ behavior: 'smooth' }); }
-function scrollToCuisines() { document.getElementById('cuisines').scrollIntoView({ behavior: 'smooth' }); }
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-async function submitQuote() {
-  const name = document.getElementById('fname').value.trim();
-  const email = document.getElementById('femail').value.trim();
-  const phone = document.getElementById('fphone').value.trim();
-  const date = document.getElementById('fdate').value;
-  const count = document.getElementById('fcount').value.trim();
-  const address = document.getElementById('faddress').value.trim();
-  const notes = document.getElementById('fnotes').value.trim();
-  if (!name || !email || !phone || !date || !count || !address) { showToast('Please fill in all required fields'); return; }
-  const cuisineList = selected.size > 0 ? [...selected].join(', ') : 'Not specified';
-
-  const submitBtn = document.querySelector('.submit-btn');
-  submitBtn.textContent = 'Sending...';
-  submitBtn.disabled = true;
-
-  try {
-    const res = await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: '0b0546bb-031a-46ac-b42e-478f0dbc087f',
-        from_name: 'The Full Spread',
-        replyto: email,
-        to: 'geryolconce@gmail.com',
-        subject: `New catering quote request — ${name}`,
-        name,
-        email,
-        phone,
-        event_date: date,
-        headcount: count,
-        delivery_address: address,
-        cuisines: cuisineList,
-        notes: notes || 'None'
-      })
-    });
-    const data = await res.json();
-    if (data.success) {
-      document.getElementById('formState').style.display = 'none';
-      document.getElementById('successState').style.display = 'block';
-    } else {
-      showToast('Something went wrong — please try again');
-      submitBtn.textContent = 'Send my quote request';
-      submitBtn.disabled = false;
-    }
-  } catch (err) {
-    showToast('Connection error — please try again');
-    submitBtn.textContent = 'Send my quote request';
-    submitBtn.disabled = false;
+// ═══════════════════════════════════════════════════════════════════
+// FOOD PLACEHOLDER — striped, label, hue-tinted
+// ═══════════════════════════════════════════════════════════════════
+// Twemoji helper — turns an emoji char into the SVG codepoint URL on jsDelivr.
+// Handles multi-codepoint emoji and strips the FE0F variation selector.
+function twemojiUrl(emoji) {
+  const codepoints = [];
+  for (const ch of emoji) {
+    const cp = ch.codePointAt(0);
+    if (cp !== 0xFE0F) codepoints.push(cp.toString(16));
   }
+  return `https://cdn.jsdelivr.net/gh/jdecked/twemoji@latest/assets/svg/${codepoints.join('-')}.svg`;
 }
-</script>
+
+function FoodPlaceholder({ hue, label, height = 140, src, alt, emoji }) {
+  const bg = `oklch(0.78 0.10 ${hue})`;
+  const stripe = `oklch(0.68 0.13 ${hue})`;
+  const ink = `oklch(0.22 0.05 ${hue})`;
+  const showImg = !!src;
+  // Icon size scales with container height.
+  const iconSize = Math.round(height * 0.5);
+  return (
+    <div style={{
+      position: 'relative', width: '100%', height: height,
+      background: showImg
+        ? '#000'
+        : `repeating-linear-gradient(135deg, ${bg} 0 18px, ${stripe} 18px 36px)`,
+      overflow: 'hidden',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      {showImg && (
+        <img
+          src={src}
+          alt={alt || label}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      )}
+      {!showImg && (
+        <>
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: `radial-gradient(ellipse at 30% 30%, ${bg}00 0%, ${bg}80 60%)`,
+            pointerEvents: 'none',
+          }} />
+          {emoji && (
+            <img
+              src={twemojiUrl(emoji)}
+              alt={alt || label}
+              loading="lazy"
+              draggable="false"
+              style={{
+                width: iconSize, height: iconSize,
+                filter: 'drop-shadow(0 2px 6px rgba(40,20,10,0.18))',
+                position: 'relative', zIndex: 1,
+                userSelect: 'none',
+              }}
+            />
+          )}
+          <div style={{
+            position: 'absolute', left: 10, bottom: 8,
+            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontSize: 9, color: ink, letterSpacing: '0.8px',
+            background: 'rgba(244,237,224,0.85)',
+            padding: '3px 7px', borderRadius: 2,
+          }}>
+            {label}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+const CUISINE_EMOJI = {
+  "Breakfast":     "🥞",
+  "Thai":          "🍜",
+  "Hawaiian BBQ":  "🍗",
+  "Poke Bowls":    "🥗",
+  "Mexican":       "🌮",
+  "Chinese":       "🥟",
+  "Mediterranean": "🥙",
+  "Indian":        "🍛",
+  "Sushi":         "🍣",
+};
+const HERO_EMOJI = "🍽️";       // plate w/ utensils
+const DELIVERY_EMOJI = "📦";  // package
+
+const IMG_V = "10";  // bump when images change to bust iframe cache
+const CUISINE_IMG = {
+  "Breakfast":     `images/breakfast.jpg?v=${IMG_V}`,
+  "Thai":          `images/thai.jpg?v=${IMG_V}`,
+  "Hawaiian BBQ":  `images/hawaiian-bbq.jpg?v=${IMG_V}`,
+  "Poke Bowls":    `images/poke.jpg?v=${IMG_V}`,
+  "Mexican":       `images/mexican.jpg?v=${IMG_V}`,
+  "Chinese":       `images/chinese.jpg?v=${IMG_V}`,
+  "Mediterranean": `images/mediterranean.jpg?v=${IMG_V}`,
+  "Indian":        `images/indian.jpg?v=${IMG_V}`,
+  "Sushi":         `images/sushi.jpg?v=${IMG_V}`,
+};
+const HERO_IMG = `images/hero.jpg?v=${IMG_V}`;
+const DELIVERY_IMG = `images/delivery.jpg?v=${IMG_V}`;
+
+// ═══════════════════════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════════════════════
+function Nav({ onCta, lang, setLang, t }) {
+  return (
+    <nav className="tfs-nav">
+      <div className="tfs-mark">
+        <span className="tfs-mark-glyph">✦</span>
+        <span>The Full <em>Spread</em></span>
+      </div>
+      <div className="tfs-nav-right">
+        <LangToggle lang={lang} setLang={setLang} />
+        <button className="tfs-nav-cta" onClick={onCta}>
+          {t.navQuote}
+          <span className="tfs-arrow">↗</span>
+        </button>
+      </div>
+    </nav>
+  );
+}
+
+function LangToggle({ lang, setLang, variant = 'nav' }) {
+  return (
+    <div className={`tfs-lang ${variant === 'footer' ? 'is-footer' : ''}`} role="group" aria-label="Language">
+      <button
+        className={`tfs-lang-opt ${lang === 'en' ? 'is-active' : ''}`}
+        onClick={() => setLang('en')}
+        aria-pressed={lang === 'en'}
+      >EN</button>
+      <button
+        className={`tfs-lang-opt ${lang === 'es' ? 'is-active' : ''}`}
+        onClick={() => setLang('es')}
+        aria-pressed={lang === 'es'}
+      >ES</button>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// HERO
+// ═══════════════════════════════════════════════════════════════════
+function Hero({ onQuote, onExplore, t }) {
+  return (
+    <section className="tfs-hero">
+      <div className="tfs-hero-rule">
+        <span>{t.heroEst}</span>
+        <span className="tfs-hero-dot">●</span>
+        <span>{t.heroKitchens}</span>
+        <span className="tfs-hero-dot">●</span>
+        <span>{t.heroInvoice}</span>
+      </div>
+
+      <h1 className="tfs-hero-h1">
+        {t.heroH1a}<br/>
+        {t.heroH1b}<br/>
+        <em>{t.heroH1c}</em><br/>
+        <span className="tfs-hero-underline">{t.heroH1d}</span>
+      </h1>
+
+      <div className="tfs-hero-photo">
+        <FoodPlaceholder hue={25} label="HERO · spread on butcher paper" height={180} src={HERO_IMG} alt="Catering spread" emoji={HERO_EMOJI} />
+        <div className="tfs-hero-photo-tag">
+          <span className="tfs-tag-num">№ 01</span>
+          <span>{t.heroPhotoTag}</span>
+        </div>
+      </div>
+
+      <p className="tfs-hero-lede">
+        {t.heroLede}
+      </p>
+
+      <div className="tfs-hero-btns">
+        <button className="tfs-btn-primary" onClick={onQuote}>
+          {t.heroBtnQuote}
+          <span className="tfs-arrow">→</span>
+        </button>
+        <button className="tfs-btn-ghost" onClick={onExplore}>
+          {t.heroBtnExplore}
+        </button>
+      </div>
+
+      <div className="tfs-hero-credits">
+        <div className="tfs-credit">
+          <div className="tfs-credit-num">{t.creditCuisinesNum}</div>
+          <div className="tfs-credit-label" style={{whiteSpace: 'pre-line'}}>{t.creditCuisinesLabel}</div>
+        </div>
+        <div className="tfs-credit-line" />
+        <div className="tfs-credit">
+          <div className="tfs-credit-num">{t.creditTimeNum}</div>
+          <div className="tfs-credit-label" style={{whiteSpace: 'pre-line'}}>{t.creditTimeLabel}</div>
+        </div>
+        <div className="tfs-credit-line" />
+        <div className="tfs-credit">
+          <div className="tfs-credit-num" style={{whiteSpace: 'pre-line'}}>{t.creditGuestsNum}</div>
+          <div className="tfs-credit-label" style={{whiteSpace: 'pre-line'}}>{t.creditGuestsLabel}</div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CUISINES
+// ═══════════════════════════════════════════════════════════════════
+function Cuisines({ selected, onToggle, onOpen, t }) {
+  return (
+    <section id="cuisines" className="tfs-cuisines">
+      <SectionHeader
+        eyebrow={t.chapter02}
+        title={<>{t.cuisinesTitleA}<br/><em>{t.cuisinesTitleB}</em> {t.cuisinesTitleC}</>}
+        sub={t.cuisinesSub}
+      />
+
+      <div className="tfs-cuisine-grid">
+        {CUISINES.map(c => {
+          const isSel = selected.has(c.id);
+          const data = MENUS[c.id];
+          return (
+            <div
+              key={c.id}
+              className={`tfs-cuisine-card ${isSel ? 'is-selected' : ''}`}
+              onClick={() => onToggle(c.id)}
+            >
+              <div className="tfs-cuisine-photo">
+                <FoodPlaceholder hue={data.hue} label={c.id.toUpperCase()} height={108} src={CUISINE_IMG[c.id]} alt={t.cuisines[c.id].name} emoji={CUISINE_EMOJI[c.id]} />
+                {isSel && (
+                  <div className="tfs-cuisine-check">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M2 7l3.5 3.5L12 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <div className="tfs-cuisine-meta">
+                <div className="tfs-cuisine-row">
+                  <span className="tfs-cuisine-num">{c.glyph}</span>
+                  <button
+                    className="tfs-cuisine-info"
+                    onClick={(e) => { e.stopPropagation(); onOpen(c.id); }}
+                    aria-label={`Open ${c.id} menu`}
+                  >
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      <path d="M1 2h8M1 5h8M1 8h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                    </svg>
+                  </button>
+                </div>
+                <div className="tfs-cuisine-name">{t.cuisines[c.id].name}</div>
+                <div className="tfs-cuisine-desc">{t.cuisines[c.id].desc}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <button className="tfs-cuisine-cta" onClick={() => document.getElementById('order').scrollIntoView({ behavior: 'smooth' })}>
+        <span>{selected.size > 0 ? t.cuisineCtaContinue(selected.size) : t.cuisineCtaEmpty}</span>
+        <span className="tfs-arrow">→</span>
+      </button>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// SECTION HEADER
+// ═══════════════════════════════════════════════════════════════════
+function SectionHeader({ eyebrow, title, sub, light }) {
+  return (
+    <div className={`tfs-section-head ${light ? 'is-light' : ''}`}>
+      <div className="tfs-eyebrow">
+        <span className="tfs-eyebrow-mark">¶</span>
+        {eyebrow}
+      </div>
+      <h2 className="tfs-h2">{title}</h2>
+      {sub && <p className="tfs-section-sub">{sub}</p>}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// HOW IT WORKS — on dark forest
+// ═══════════════════════════════════════════════════════════════════
+function HowItWorks({ t }) {
+  const steps = [
+    { n: "i.",   title: t.step1Title, desc: t.step1Desc },
+    { n: "ii.",  title: t.step2Title, desc: t.step2Desc },
+    { n: "iii.", title: t.step3Title, desc: t.step3Desc },
+  ];
+  return (
+    <section className="tfs-how">
+      <SectionHeader
+        eyebrow={t.chapter03}
+        title={<>{t.howTitleA}<br/><em>{t.howTitleB}</em></>}
+        light
+      />
+      <div className="tfs-steps">
+        {steps.map((s, i) => (
+          <div key={i} className="tfs-step">
+            <div className="tfs-step-num">{s.n}</div>
+            <div className="tfs-step-body">
+              <div className="tfs-step-title">{s.title}</div>
+              <div className="tfs-step-desc">{s.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="tfs-how-photo">
+        <FoodPlaceholder hue={142} label="DELIVERY · packed & labeled" height={160} src={DELIVERY_IMG} alt="Delivery, packed and labeled" emoji={DELIVERY_EMOJI} />
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// PERKS
+// ═══════════════════════════════════════════════════════════════════
+function Perks({ t }) {
+  const kickers = ["a.","b.","c.","d.","e.","f."];
+  const perks = t.perks.map((p, i) => ({ kicker: kickers[i], ...p }));
+  return (
+    <section className="tfs-perks">
+      <SectionHeader
+        eyebrow={t.chapter04}
+        title={<>{t.perksTitleA}<br/><em>{t.perksTitleB}</em></>}
+      />
+      <div className="tfs-perks-list">
+        {perks.map((p, i) => (
+          <div key={i} className="tfs-perk">
+            <div className="tfs-perk-kicker">{p.kicker}</div>
+            <div className="tfs-perk-body">
+              <div className="tfs-perk-title">{p.title}</div>
+              <div className="tfs-perk-desc">{p.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// QUOTE FORM
+// ═══════════════════════════════════════════════════════════════════
+function QuoteForm({ selected, onRemove, t }) {
+  const [form, setForm] = useState({
+    fname: '', femail: '', fphone: '', fdate: '', fcount: '', faddress: '', fnotes: ''
+  });
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [serverError, setServerError] = useState('');
+
+  const set = (k, v) => {
+    setForm(f => ({ ...f, [k]: v }));
+    if (errors[k]) setErrors(e => ({ ...e, [k]: null }));
+  };
+
+  const validate = () => {
+    const e = {};
+    if (!form.fname.trim()) e.fname = t.fErrRequired;
+    if (!form.femail.trim()) e.femail = t.fErrRequired;
+    else if (!/^\S+@\S+\.\S+$/.test(form.femail)) e.femail = t.fErrEmail;
+    if (!form.fphone.trim()) e.fphone = t.fErrRequired;
+    if (!form.fdate) e.fdate = t.fErrRequired;
+    if (!form.fcount.trim()) e.fcount = t.fErrRequired;
+    if (!form.faddress.trim()) e.faddress = t.fErrRequired;
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const submit = async () => {
+    if (!validate()) return;
+    setSubmitting(true);
+    setServerError('');
+    const cuisineList = selected.size > 0 ? [...selected].join(', ') : 'Not specified';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: '0b0546bb-031a-46ac-b42e-478f0dbc087f',
+          from_name: 'The Full Spread',
+          replyto: form.femail,
+          to: 'geryolconce@gmail.com',
+          subject: `New catering quote request — ${form.fname}`,
+          name: form.fname,
+          email: form.femail,
+          phone: form.fphone,
+          event_date: form.fdate,
+          headcount: form.fcount,
+          delivery_address: form.faddress,
+          cuisines: cuisineList,
+          notes: form.fnotes || 'None'
+        })
+      });
+      const data = await res.json();
+      if (data.success) setSuccess(true);
+      else { setServerError(t.formServerErr); setSubmitting(false); }
+    } catch (err) {
+      setServerError(t.formConnErr);
+      setSubmitting(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <section id="order" className="tfs-order">
+        <div className="tfs-success">
+          <div className="tfs-success-mark">✓</div>
+          <div className="tfs-success-eyebrow">¶ {t.successEyebrow} · {new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</div>
+          <h2 className="tfs-h2 tfs-success-h">{t.successTitle}</h2>
+          <p className="tfs-success-sub" style={{whiteSpace: 'pre-line'}}>
+            {t.successSub}
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="order" className="tfs-order">
+      <SectionHeader
+        eyebrow={t.chapter05}
+        title={<>{t.formTitleA}<br/>{t.formTitleB} <em>{t.formTitleC}</em></>}
+        sub={t.formSub}
+        light
+      />
+
+      <div className="tfs-form-summary">
+        <div className="tfs-form-summary-label">{t.formSelectionLabel}</div>
+        {selected.size === 0 ? (
+          <div className="tfs-form-summary-empty">{t.formSelectionEmpty}</div>
+        ) : (
+          <div className="tfs-form-summary-tags">
+            {[...selected].map(c => (
+              <button key={c} className="tfs-summary-tag" onClick={() => onRemove(c)}>
+                {c}
+                <span className="tfs-summary-tag-x">×</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <FormField label={t.fName} id="fname" value={form.fname} onChange={v => set('fname', v)} error={errors.fname} placeholder={t.fNamePh} />
+      <FormField label={t.fEmail} id="femail" type="email" value={form.femail} onChange={v => set('femail', v)} error={errors.femail} placeholder={t.fEmailPh} />
+      <FormField label={t.fPhone} id="fphone" type="tel" value={form.fphone} onChange={v => set('fphone', v)} error={errors.fphone} placeholder={t.fPhonePh} />
+      <div className="tfs-form-row">
+        <FormField label={t.fDate} id="fdate" type="date" value={form.fdate} onChange={v => set('fdate', v)} error={errors.fdate} />
+        <FormField label={t.fCount} id="fcount" type="number" value={form.fcount} onChange={v => set('fcount', v)} error={errors.fcount} placeholder={t.fCountPh} />
+      </div>
+      <FormField label={t.fAddress} id="faddress" value={form.faddress} onChange={v => set('faddress', v)} error={errors.faddress} placeholder={t.fAddressPh} />
+      <FormField label={t.fNotes} id="fnotes" type="textarea" value={form.fnotes} onChange={v => set('fnotes', v)} placeholder={t.fNotesPh} />
+
+      <button className="tfs-submit" onClick={submit} disabled={submitting}>
+        {submitting ? t.formSubmitting : t.formSubmit}
+        {!submitting && <span className="tfs-arrow">→</span>}
+      </button>
+      {serverError && <div className="tfs-form-server-err">{serverError}</div>}
+      <div className="tfs-form-note">
+        {t.formNote}
+      </div>
+    </section>
+  );
+}
+
+function FormField({ label, id, type = 'text', value, onChange, error, placeholder }) {
+  const InputEl = type === 'textarea' ? 'textarea' : 'input';
+  return (
+    <div className={`tfs-field ${error ? 'has-err' : ''}`}>
+      <label htmlFor={id} className="tfs-field-label">
+        {label}
+        {error && <span className="tfs-field-err">— {error}</span>}
+      </label>
+      <InputEl
+        id={id}
+        className="tfs-field-input"
+        type={type !== 'textarea' ? type : undefined}
+        rows={type === 'textarea' ? 3 : undefined}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+      />
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// FOOTER
+// ═══════════════════════════════════════════════════════════════════
+function Footer({ lang, setLang, t }) {
+  return (
+    <footer className="tfs-footer">
+      <div className="tfs-footer-mark">
+        <span className="tfs-mark-glyph">✦</span>
+        The Full <em>Spread</em>
+      </div>
+      <div className="tfs-footer-tag">{t.footerTag}</div>
+      <div className="tfs-footer-lang">
+        <LangToggle lang={lang} setLang={setLang} variant="footer" />
+      </div>
+      <div className="tfs-footer-links">
+        <a href="#">Instagram</a>
+        <span className="tfs-footer-dot">·</span>
+        <a href="#">WhatsApp</a>
+        <span className="tfs-footer-dot">·</span>
+        <a href="mailto:hello@thefullspread.com">Email</a>
+      </div>
+      <div className="tfs-footer-rule" />
+      <div className="tfs-footer-copy">
+        <span>{t.footerCopy}</span>
+        <span>{t.footerRights}</span>
+      </div>
+      <div className="tfs-footer-attr">
+        Icons by <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> · CC-BY 4.0
+      </div>
+    </footer>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// BOTTOM SHEET — menu detail
+// ═══════════════════════════════════════════════════════════════════
+function MenuSheet({ cuisine, isSelected, onToggle, onClose, t }) {
+  const open = !!cuisine;
+  useEffect(() => {
+    if (open) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = '';
+  }, [open]);
+  if (!cuisine) return null;
+  const data = MENUS[cuisine];
+  return (
+    <>
+      <div className={`tfs-sheet-overlay ${open ? 'is-open' : ''}`} onClick={onClose} />
+      <div className={`tfs-sheet ${open ? 'is-open' : ''}`}>
+        <div className="tfs-sheet-handle" />
+        <div className="tfs-sheet-photo">
+          <FoodPlaceholder hue={data.hue} label={`${cuisine.toUpperCase()} · spread`} height={120} src={CUISINE_IMG[cuisine]} alt={t.cuisines[cuisine].name} emoji={CUISINE_EMOJI[cuisine]} />
+        </div>
+        <div className="tfs-sheet-head">
+          <div>
+            <div className="tfs-sheet-eyebrow">¶ {t.sheetEyebrow}</div>
+            <h3 className="tfs-sheet-title">{t.cuisines[cuisine].name}</h3>
+            <div className="tfs-sheet-tagline">{data.tagline}</div>
+          </div>
+          <button className="tfs-sheet-close" onClick={onClose} aria-label={t.sheetClose}>
+            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>
+          </button>
+        </div>
+        <div className="tfs-sheet-body">
+          {data.categories.map((cat, ci) => (
+            <div key={ci} className="tfs-sheet-cat">
+              <div className="tfs-sheet-cat-rule">
+                <span>{cat.name}</span>
+                <span className="tfs-sheet-cat-count">{cat.items.length}</span>
+              </div>
+              {cat.items.map((it, ii) => (
+                <div key={ii} className="tfs-sheet-item">
+                  <div className="tfs-sheet-item-left">
+                    <div className="tfs-sheet-item-name">{it.name}</div>
+                    {(it.tags || it.note) && (
+                      <div className="tfs-sheet-item-meta">
+                        {it.note && <span className="tfs-sheet-item-note">{it.note}</span>}
+                        {it.tags && it.tags.map((t, ti) => (
+                          <span key={ti} className="tfs-diet">{t}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="tfs-sheet-item-price">{it.price}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="tfs-sheet-footer">
+          <button
+            className={`tfs-sheet-btn ${isSelected ? 'is-remove' : ''}`}
+            onClick={onToggle}
+          >
+            {isSelected ? t.sheetRemove(t.cuisines[cuisine].name) : t.sheetAdd(t.cuisines[cuisine].name)}
+            {!isSelected && <span className="tfs-arrow">→</span>}
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// STICKY TRAY — selected cuisines, peeks from bottom
+// ═══════════════════════════════════════════════════════════════════
+function SelectionTray({ selected, onJump, t }) {
+  const visible = selected.size > 0;
+  return (
+    <div className={`tfs-tray ${visible ? 'is-visible' : ''}`}>
+      <div className="tfs-tray-left">
+        <div className="tfs-tray-count">{selected.size}</div>
+        <div>
+          <div className="tfs-tray-label">{t.trayLabel}</div>
+          <div className="tfs-tray-tags">
+            {[...selected].map(c => t.cuisines[c].name).slice(0, 3).join(' · ')}
+            {selected.size > 3 ? ` +${selected.size - 3}` : ''}
+          </div>
+        </div>
+      </div>
+      <button className="tfs-tray-btn" onClick={onJump}>
+        {t.trayBtn}
+        <span className="tfs-arrow">→</span>
+      </button>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// APP
+// ═══════════════════════════════════════════════════════════════════
+function App() {
+  const [selected, setSelected] = useState(new Set());
+  const [sheetCuisine, setSheetCuisine] = useState(null);
+  const [lang, setLangState] = useState(() => {
+    try {
+      const stored = localStorage.getItem('tfs-lang');
+      if (stored === 'en' || stored === 'es') return stored;
+      const nav = (navigator.language || 'en').toLowerCase();
+      return nav.startsWith('es') ? 'es' : 'en';
+    } catch { return 'en'; }
+  });
+  const setLang = (l) => {
+    setLangState(l);
+    try { localStorage.setItem('tfs-lang', l); } catch {}
+    document.documentElement.lang = l;
+  };
+  useEffect(() => { document.documentElement.lang = lang; }, [lang]);
+  const t = window.TFS_TRANSLATIONS[lang];
+
+  const toggle = (id) => {
+    setSelected(s => {
+      const next = new Set(s);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const remove = (id) => {
+    setSelected(s => {
+      const next = new Set(s);
+      next.delete(id);
+      return next;
+    });
+  };
+
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+
+  return (
+    <div className="tfs-shell">
+      <Nav onCta={() => scrollTo('order')} lang={lang} setLang={setLang} t={t} />
+      <Hero
+        onQuote={() => scrollTo('order')}
+        onExplore={() => scrollTo('cuisines')}
+        t={t}
+      />
+      <Cuisines
+        selected={selected}
+        onToggle={toggle}
+        onOpen={(id) => setSheetCuisine(id)}
+        t={t}
+      />
+      <HowItWorks t={t} />
+      <Perks t={t} />
+      <QuoteForm selected={selected} onRemove={remove} t={t} />
+      <Footer lang={lang} setLang={setLang} t={t} />
+      <MenuSheet
+        cuisine={sheetCuisine}
+        isSelected={sheetCuisine ? selected.has(sheetCuisine) : false}
+        onToggle={() => { if (sheetCuisine) toggle(sheetCuisine); }}
+        onClose={() => setSheetCuisine(null)}
+        t={t}
+      />
+      <SelectionTray selected={selected} onJump={() => scrollTo('order')} t={t} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+// ═══════════════════════════════════════════════════════════════════
+// i18n — English / Spanish
+// ═══════════════════════════════════════════════════════════════════
+window.TFS_TRANSLATIONS = {
+  en: {
+    // Nav
+    navQuote: "Quote",
+    // Hero
+    heroEst: "EST · 2024",
+    heroKitchens: "NINE KITCHENS",
+    heroInvoice: "ONE INVOICE",
+    heroH1a: "Catering",
+    heroH1b: "from the",
+    heroH1c: "cuisines",
+    heroH1d: "you love.",
+    heroPhotoTag: "The Spread",
+    heroLede: "Nine kitchens, one order, zero hassle. Local flavors delivered together — hot, labeled, on time, every time.",
+    heroBtnQuote: "Get a quote",
+    heroBtnExplore: "See cuisines",
+    creditCuisinesNum: "9",
+    creditCuisinesLabel: "cuisines\nunder one roof",
+    creditTimeNum: "1hr",
+    creditTimeLabel: "quote turnaround\nvia text + email",
+    creditGuestsNum: "10–\n200",
+    creditGuestsLabel: "guests\nany size",
+    // Cuisines
+    chapter02: "Ch. 02 — The Menu",
+    cuisinesTitleA: "Nine cuisines.",
+    cuisinesTitleB: "One",
+    cuisinesTitleC: "order.",
+    cuisinesSub: "Tap a card to add it to your order. Tap the menu icon to browse the full menu first.",
+    cuisineCtaContinue: (n) => `Continue with ${n} cuisine${n === 1 ? '' : 's'}`,
+    cuisineCtaEmpty: "Or, let us suggest a mix",
+    // Cuisine names + descriptions
+    cuisines: {
+      "Breakfast":     { name: "Breakfast",     desc: "Hot platters · BYO" },
+      "Thai":          { name: "Thai",          desc: "Curry · pad thai" },
+      "Hawaiian BBQ":  { name: "Hawaiian BBQ",  desc: "Grills · plate lunch" },
+      "Poke Bowls":    { name: "Poke Bowls",    desc: "Ahi · spicy salmon" },
+      "Mexican":       { name: "Mexican",       desc: "Tacos · barbacoa" },
+      "Chinese":       { name: "Chinese",       desc: "Mapo · dumplings" },
+      "Mediterranean": { name: "Mediterranean", desc: "Shawarma · mezze" },
+      "Indian":        { name: "Indian",        desc: "Tandoor · curry" },
+      "Sushi":         { name: "Sushi",         desc: "Maki · nigiri" },
+    },
+    // How it works
+    chapter03: "Ch. 03 — How it works",
+    howTitleA: "Three steps.",
+    howTitleB: "That's it.",
+    step1Title: "You pick the cuisines",
+    step1Desc: "Tap what your team is craving. Or skip it — tell us preferences and we'll build the mix.",
+    step2Title: "We coordinate kitchens",
+    step2Desc: "We handle the calls, timing, and packaging. Everything labeled clearly.",
+    step3Title: "It arrives, all together",
+    step3Desc: "One drop. Hot. On time. With one invoice and one human you can text if anything's off.",
+    // Perks
+    chapter04: "Ch. 04 — Why us",
+    perksTitleA: "Built for offices.",
+    perksTitleB: "Tested at events.",
+    perks: [
+      { title: "Multi-cuisine orders", desc: "Something for everyone. No compromising on the picky eater, the vegan, or the boss." },
+      { title: "Reliable delivery",    desc: "Hot, on time, every time. Coordinated across all kitchens by one team." },
+      { title: "Dietary options",      desc: "Vegan, gluten-free, halal — clearly labeled on every platter." },
+      { title: "One invoice",          desc: "Nine kitchens, one bill. Net-30 and PO-friendly for office accounts." },
+      { title: "Flexible minimums",    desc: "10 people or 200. Same level of care, scaled to your headcount." },
+      { title: "A real human",         desc: "One person handles your order from quote to cleanup. Their name's on the invoice." },
+    ],
+    // Form
+    chapter05: "Ch. 05 — Get a quote",
+    formTitleA: "Let's get",
+    formTitleB: "everyone",
+    formTitleC: "fed.",
+    formSub: "Fill this out — we reply within an hour, via text and email.",
+    formSelectionLabel: "Your selection",
+    formSelectionEmpty: "No cuisines yet — tap to scroll back ↑",
+    fName: "Your name",
+    fNamePh: "First and last",
+    fEmail: "Email",
+    fEmailPh: "you@email.com",
+    fPhone: "Phone / WhatsApp",
+    fPhonePh: "+1 (000) 000-0000",
+    fDate: "Event date",
+    fCount: "Headcount",
+    fCountPh: "25",
+    fAddress: "Delivery address",
+    fAddressPh: "Street, city",
+    fNotes: "Anything else?",
+    fNotesPh: "Dietary needs, timing, special requests...",
+    fErrRequired: "Required",
+    fErrEmail: "Invalid email",
+    formSubmit: "Send quote request",
+    formSubmitting: "Sending…",
+    formServerErr: "Something went wrong — please try again",
+    formConnErr: "Connection error — please try again",
+    formNote: "Reply within the hour · Text + email · No spam, ever.",
+    successEyebrow: "Sent",
+    successTitle: "Quote request sent.",
+    successSub: "We'll be in touch within the hour via text and email.\nLooking forward to feeding your team.",
+    // Footer
+    footerTag: "Catering, made simple.",
+    footerCopy: "© 2026 The Full Spread",
+    footerRights: "All rights reserved",
+    // Sheet
+    sheetEyebrow: "Menu",
+    sheetAdd: (c) => `Add ${c} to order`,
+    sheetRemove: (c) => `Remove ${c}`,
+    sheetClose: "Close",
+    // Tray
+    trayLabel: "In your order",
+    trayBtn: "Quote",
+  },
+  es: {
+    navQuote: "Cotizar",
+    heroEst: "EST · 2024",
+    heroKitchens: "NUEVE COCINAS",
+    heroInvoice: "UNA FACTURA",
+    heroH1a: "Catering",
+    heroH1b: "de las",
+    heroH1c: "cocinas",
+    heroH1d: "que amas.",
+    heroPhotoTag: "El Banquete",
+    heroLede: "Nueve cocinas, un pedido, cero estrés. Sabores locales entregados juntos — calientes, etiquetados, a tiempo, siempre.",
+    heroBtnQuote: "Pedir cotización",
+    heroBtnExplore: "Ver cocinas",
+    creditCuisinesNum: "9",
+    creditCuisinesLabel: "cocinas\nbajo un mismo techo",
+    creditTimeNum: "1hr",
+    creditTimeLabel: "respuesta\npor texto y email",
+    creditGuestsNum: "10–\n200",
+    creditGuestsLabel: "invitados\ncualquier tamaño",
+    chapter02: "Cap. 02 — El menú",
+    cuisinesTitleA: "Nueve cocinas.",
+    cuisinesTitleB: "Un",
+    cuisinesTitleC: "pedido.",
+    cuisinesSub: "Toca una tarjeta para añadirla a tu pedido. Toca el ícono para ver el menú completo primero.",
+    cuisineCtaContinue: (n) => `Continuar con ${n} cocina${n === 1 ? '' : 's'}`,
+    cuisineCtaEmpty: "O, sugerimos una mezcla por ti",
+    cuisines: {
+      "Breakfast":     { name: "Desayuno",      desc: "Platos calientes · Arma el tuyo" },
+      "Thai":          { name: "Tailandés",     desc: "Curry · pad thai" },
+      "Hawaiian BBQ":  { name: "BBQ Hawaiano",  desc: "Parrilla · plato isleño" },
+      "Poke Bowls":    { name: "Poke Bowls",    desc: "Atún · salmón picante" },
+      "Mexican":       { name: "Mexicana",      desc: "Tacos · barbacoa" },
+      "Chinese":       { name: "China",         desc: "Mapo · dumplings" },
+      "Mediterranean": { name: "Mediterránea",  desc: "Shawarma · mezze" },
+      "Indian":        { name: "India",         desc: "Tandoor · curry" },
+      "Sushi":         { name: "Sushi",         desc: "Maki · nigiri" },
+    },
+    chapter03: "Cap. 03 — Cómo funciona",
+    howTitleA: "Tres pasos.",
+    howTitleB: "Eso es todo.",
+    step1Title: "Eliges las cocinas",
+    step1Desc: "Toca lo que tu equipo está antojando. O sáltatelo — dinos preferencias y armamos la mezcla.",
+    step2Title: "Coordinamos las cocinas",
+    step2Desc: "Manejamos las llamadas, los tiempos y el empaque. Todo etiquetado claramente.",
+    step3Title: "Llega, todo junto",
+    step3Desc: "Una entrega. Caliente. A tiempo. Una sola factura y una persona real a la que puedes escribir.",
+    chapter04: "Cap. 04 — Por qué nosotros",
+    perksTitleA: "Hecho para oficinas.",
+    perksTitleB: "Probado en eventos.",
+    perks: [
+      { title: "Pedidos multicocina",     desc: "Algo para todos. Sin compromisos para el quisquilloso, el vegano o el jefe." },
+      { title: "Entrega confiable",       desc: "Caliente, a tiempo, siempre. Coordinado entre todas las cocinas por un solo equipo." },
+      { title: "Opciones dietéticas",     desc: "Vegano, sin gluten, halal — claramente etiquetado en cada platón." },
+      { title: "Una sola factura",        desc: "Nueve cocinas, una cuenta. Net-30 y compatible con órdenes de compra." },
+      { title: "Mínimos flexibles",       desc: "10 personas o 200. El mismo cuidado, escalado a tu grupo." },
+      { title: "Una persona real",        desc: "Una persona maneja tu pedido de inicio a fin. Su nombre va en la factura." },
+    ],
+    chapter05: "Cap. 05 — Pedir cotización",
+    formTitleA: "Vamos a darle",
+    formTitleB: "de comer a",
+    formTitleC: "todos.",
+    formSub: "Llena esto — respondemos en menos de una hora, por texto y email.",
+    formSelectionLabel: "Tu selección",
+    formSelectionEmpty: "Aún no hay cocinas — toca arriba para volver ↑",
+    fName: "Tu nombre",
+    fNamePh: "Nombre y apellido",
+    fEmail: "Email",
+    fEmailPh: "tu@email.com",
+    fPhone: "Teléfono / WhatsApp",
+    fPhonePh: "+1 (000) 000-0000",
+    fDate: "Fecha del evento",
+    fCount: "Personas",
+    fCountPh: "25",
+    fAddress: "Dirección de entrega",
+    fAddressPh: "Calle, ciudad",
+    fNotes: "¿Algo más?",
+    fNotesPh: "Restricciones, horarios, peticiones especiales...",
+    fErrRequired: "Requerido",
+    fErrEmail: "Email inválido",
+    formSubmit: "Enviar cotización",
+    formSubmitting: "Enviando…",
+    formServerErr: "Algo salió mal — intenta de nuevo",
+    formConnErr: "Error de conexión — intenta de nuevo",
+    formNote: "Respuesta en menos de una hora · Texto + email · Sin spam, jamás.",
+    successEyebrow: "Enviado",
+    successTitle: "¡Cotización enviada!",
+    successSub: "Te contactaremos en menos de una hora por texto y email.\nListos para alimentar a tu equipo.",
+    footerTag: "Catering, simple.",
+    footerCopy: "© 2026 The Full Spread",
+    footerRights: "Todos los derechos reservados",
+    sheetEyebrow: "Menú",
+    sheetAdd: (c) => `Añadir ${c} al pedido`,
+    sheetRemove: (c) => `Quitar ${c}`,
+    sheetClose: "Cerrar",
+    trayLabel: "En tu pedido",
+    trayBtn: "Cotizar",
+  }
+};
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Full Spread — Catering, Made Simple</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="i18n.js"></script>
+<script type="text/babel" src="app.jsx?v=11"></script>
 </body>
 </html>
+
+/* ═══════════════════════════════════════════════════════════════════
+   THE FULL SPREAD — editorial mobile catering site
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  --cream:        #F4EDE0;
+  --cream-2:      #EFE6D4;
+  --paper:        #FBF6EC;
+  --ink:          #1F1612;
+  --ink-2:        #3A2E26;
+  --ink-3:        #6A5B4F;
+  --ink-4:        #A8998A;
+  --rule:         rgba(31,22,18,0.14);
+  --rule-soft:    rgba(31,22,18,0.08);
+  --orange:       #D8542B;
+  --orange-deep:  #B83F1A;
+  --orange-soft:  #F2D9C7;
+  --butter:       #E8B644;
+  --forest:       #1F2D22;
+  --forest-2:     #2E3F31;
+  --forest-rule:  rgba(244,237,224,0.14);
+
+  --serif: 'Instrument Serif', 'Cormorant Garamond', 'Times New Roman', serif;
+  --sans:  'Geist', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --mono:  'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; }
+
+#root { display: flex; justify-content: center; min-height: 100vh; }
+
+.tfs-shell {
+  width: 100%;
+  max-width: 440px;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Arrow icon ─────────────────────────────────────────── */
+.tfs-arrow {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: var(--sans);
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+button:hover .tfs-arrow { transform: translateX(3px); }
+
+/* ─── Nav ─────────────────────────────────────────── */
+.tfs-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: blur(8px);
+}
+.tfs-mark {
+  font-family: var(--serif);
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 8px;
+}
+.tfs-mark em { color: var(--orange); font-style: italic; }
+.tfs-mark-glyph {
+  color: var(--orange);
+  font-size: 14px;
+  display: inline-block;
+  transform: translateY(-1px);
+}
+.tfs-nav-cta {
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  padding: 9px 16px;
+  border-radius: 100px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  display: inline-flex; align-items: center;
+  transition: background 0.2s;
+}
+.tfs-nav-cta:hover { background: var(--orange-deep); }
+.tfs-nav-right { display: flex; align-items: center; gap: 10px; }
+
+/* ─── Language Toggle ─────────────────────────────────────────── */
+.tfs-lang {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  padding: 2px;
+  font-family: var(--mono);
+}
+.tfs-lang-opt {
+  background: transparent;
+  border: none;
+  padding: 5px 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  border-radius: 100px;
+  transition: background 0.18s, color 0.18s;
+  min-width: 28px;
+}
+.tfs-lang-opt:hover { color: var(--ink); }
+.tfs-lang-opt.is-active {
+  background: var(--ink);
+  color: var(--cream);
+}
+.tfs-lang.is-footer {
+  border-color: rgba(244,237,224,0.18);
+}
+.tfs-lang.is-footer .tfs-lang-opt {
+  color: rgba(244,237,224,0.55);
+}
+.tfs-lang.is-footer .tfs-lang-opt:hover { color: var(--cream); }
+.tfs-lang.is-footer .tfs-lang-opt.is-active {
+  background: var(--orange);
+  color: var(--cream);
+}
+.tfs-footer-lang {
+  display: flex; justify-content: center;
+  margin-bottom: 18px;
+}
+
+/* ─── Section Header ─────────────────────────────────────────── */
+.tfs-section-head {
+  margin-bottom: 28px;
+}
+.tfs-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 14px;
+}
+.tfs-eyebrow-mark {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-style: italic;
+}
+.tfs-h2 {
+  font-family: var(--serif);
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.tfs-h2 em { font-style: italic; color: var(--orange); }
+.tfs-section-head.is-light .tfs-h2 { color: var(--cream); }
+.tfs-section-head.is-light .tfs-eyebrow { color: var(--butter); }
+.tfs-section-sub {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-3);
+  margin-top: 16px;
+  max-width: 320px;
+  text-wrap: pretty;
+}
+.tfs-section-head.is-light .tfs-section-sub { color: rgba(244,237,224,0.65); }
+
+/* ─── Hero ─────────────────────────────────────────── */
+.tfs-hero {
+  padding: 32px 22px 36px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-hero-rule {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.tfs-hero-dot { color: var(--orange); font-size: 6px; transform: translateY(-2px); }
+.tfs-hero-h1 {
+  font-family: var(--serif);
+  font-size: 76px;
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease both;
+}
+.tfs-hero-h1 em { font-style: italic; color: var(--orange); }
+.tfs-hero-underline {
+  position: relative;
+  display: inline-block;
+}
+.tfs-hero-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 6px;
+  height: 12px;
+  background: var(--butter);
+  z-index: -1;
+  border-radius: 2px;
+}
+.tfs-hero-photo {
+  position: relative;
+  margin: 0 -22px 24px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.tfs-hero-photo-tag {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  background: var(--cream);
+  border: 1px solid var(--ink);
+  padding: 5px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex; gap: 8px; align-items: center;
+}
+.tfs-tag-num { color: var(--orange); font-weight: 600; }
+.tfs-hero-lede {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--ink-2);
+  margin-bottom: 24px;
+  text-wrap: pretty;
+  animation: fadeUp 0.6s 0.18s ease both;
+}
+.tfs-hero-btns {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.26s ease both;
+}
+.tfs-btn-primary {
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 15px 22px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  display: inline-flex; align-items: center;
+  transition: background 0.2s;
+}
+.tfs-btn-primary:hover { background: var(--orange-deep); }
+.tfs-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  padding: 13.5px 22px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.tfs-btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+.tfs-hero-credits {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  gap: 12px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+}
+.tfs-credit-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  line-height: 0.95;
+  color: var(--orange);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.tfs-credit-label {
+  font-size: 10.5px;
+  line-height: 1.3;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+}
+.tfs-credit-line {
+  background: var(--rule);
+  width: 1px;
+  height: 100%;
+}
+
+/* ─── Cuisines ─────────────────────────────────────────── */
+.tfs-cuisines {
+  padding: 48px 22px 44px;
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-cuisine-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.tfs-cuisine-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.2s, box-shadow 0.2s;
+}
+.tfs-cuisine-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+.tfs-cuisine-card.is-selected {
+  border-color: var(--orange);
+  background: var(--orange-soft);
+  box-shadow: 4px 4px 0 var(--orange);
+  transform: translateY(-2px);
+}
+.tfs-cuisine-photo {
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-photo { border-bottom-color: var(--orange); }
+.tfs-cuisine-check {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 24px; height: 24px;
+  background: var(--orange);
+  color: var(--cream);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.tfs-cuisine-meta { padding: 12px 12px 14px; }
+.tfs-cuisine-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
+}
+.tfs-cuisine-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  letter-spacing: 0.05em;
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-num { color: var(--orange-deep); }
+.tfs-cuisine-info {
+  background: transparent;
+  border: 1px solid var(--rule);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-3);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.tfs-cuisine-info:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--cream);
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-info { border-color: var(--orange); color: var(--orange-deep); }
+.tfs-cuisine-name {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-name { color: var(--orange-deep); }
+.tfs-cuisine-desc {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+}
+
+.tfs-cuisine-cta {
+  width: 100%;
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  padding: 16px 20px;
+  border-radius: 100px;
+  font-size: 14.5px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.tfs-cuisine-cta:hover { background: var(--orange); }
+
+/* ─── How it works ─────────────────────────────────────────── */
+.tfs-how {
+  background: var(--forest);
+  color: var(--cream);
+  padding: 52px 22px 48px;
+  position: relative;
+}
+.tfs-how::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: var(--orange);
+}
+.tfs-steps {
+  display: flex; flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.tfs-step {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 14px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--forest-rule);
+  align-items: baseline;
+}
+.tfs-step:last-child { border-bottom: 1px solid var(--forest-rule); }
+.tfs-step:first-child { border-top: 1px solid var(--forest-rule); }
+.tfs-step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 32px;
+  color: var(--butter);
+  line-height: 1;
+}
+.tfs-step-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.tfs-step-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(244,237,224,0.7);
+  text-wrap: pretty;
+}
+.tfs-how-photo {
+  border: 1px solid var(--forest-rule);
+}
+
+/* ─── Perks ─────────────────────────────────────────── */
+.tfs-perks {
+  padding: 48px 22px 44px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-perks-list {
+  border-top: 1px solid var(--rule);
+}
+.tfs-perk {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.tfs-perk-kicker {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--orange);
+}
+.tfs-perk-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.tfs-perk-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+/* ─── Order / Quote form ─────────────────────────────────────────── */
+.tfs-order {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 52px 22px 56px;
+  position: relative;
+}
+.tfs-order::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: var(--orange);
+}
+
+.tfs-form-summary {
+  background: rgba(244,237,224,0.05);
+  border: 1px solid rgba(244,237,224,0.12);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+.tfs-form-summary-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 10px;
+}
+.tfs-form-summary-empty {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(244,237,224,0.4);
+}
+.tfs-form-summary-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.tfs-summary-tag {
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 5px 10px 5px 12px;
+  border-radius: 100px;
+  font-size: 11.5px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: background 0.15s;
+}
+.tfs-summary-tag:hover { background: var(--orange-deep); }
+.tfs-summary-tag-x {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.tfs-field {
+  margin-bottom: 14px;
+}
+.tfs-field-label {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 6px;
+}
+.tfs-field-err {
+  color: var(--orange);
+  font-style: normal;
+}
+.tfs-field-input {
+  width: 100%;
+  background: rgba(244,237,224,0.05);
+  border: 1px solid rgba(244,237,224,0.14);
+  border-radius: 12px;
+  padding: 13px 15px;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--cream);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none;
+  resize: vertical;
+}
+.tfs-field-input::placeholder {
+  color: rgba(244,237,224,0.28);
+}
+.tfs-field-input:focus {
+  border-color: var(--orange);
+  background: rgba(244,237,224,0.08);
+}
+.tfs-field.has-err .tfs-field-input {
+  border-color: var(--orange);
+}
+.tfs-form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+
+.tfs-submit {
+  width: 100%;
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 17px;
+  border-radius: 100px;
+  font-size: 15.5px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.tfs-submit:hover:not(:disabled) { background: var(--orange-deep); }
+.tfs-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.tfs-form-server-err {
+  text-align: center;
+  font-size: 13px;
+  color: var(--orange);
+  margin-top: 12px;
+}
+.tfs-form-note {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: rgba(244,237,224,0.4);
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+/* Success state */
+.tfs-success {
+  text-align: center;
+  padding: 32px 0;
+}
+.tfs-success-mark {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--cream);
+  font-size: 28px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-family: var(--serif);
+}
+.tfs-success-eyebrow {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--butter);
+  margin-bottom: 12px;
+}
+.tfs-success-h {
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.tfs-success-sub {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(244,237,224,0.65);
+}
+
+/* ─── Footer ─────────────────────────────────────────── */
+.tfs-footer {
+  background: var(--ink);
+  color: rgba(244,237,224,0.5);
+  padding: 36px 22px 28px;
+  text-align: center;
+  border-top: 1px solid rgba(244,237,224,0.06);
+}
+.tfs-footer-mark {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--cream);
+  margin-bottom: 6px;
+  display: flex; justify-content: center; gap: 8px;
+}
+.tfs-footer-mark em { color: var(--orange); font-style: italic; }
+.tfs-footer-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 22px;
+}
+.tfs-footer-links {
+  display: flex; justify-content: center; gap: 12px; align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.tfs-footer-links a {
+  font-size: 13px;
+  color: rgba(244,237,224,0.65);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.tfs-footer-links a:hover { color: var(--orange); }
+.tfs-footer-dot { color: rgba(244,237,224,0.3); }
+.tfs-footer-rule {
+  height: 1px;
+  background: rgba(244,237,224,0.1);
+  margin-bottom: 14px;
+}
+.tfs-footer-copy {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: rgba(244,237,224,0.35);
+}
+.tfs-footer-attr {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: rgba(244,237,224,0.25);
+}
+.tfs-footer-attr a {
+  color: rgba(244,237,224,0.45);
+  text-decoration: underline;
+  text-decoration-color: rgba(244,237,224,0.2);
+  text-underline-offset: 2px;
+}
+.tfs-footer-attr a:hover { color: rgba(244,237,224,0.7); }
+
+/* ─── Bottom Sheet ─────────────────────────────────────────── */
+.tfs-sheet-overlay {
+  position: fixed; inset: 0;
+  background: rgba(31,22,18,0.6);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(4px);
+}
+.tfs-sheet-overlay.is-open { opacity: 1; pointer-events: all; }
+.tfs-sheet {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 440px;
+  background: var(--cream);
+  border-radius: 24px 24px 0 0;
+  z-index: 101;
+  transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+  max-height: 90vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 -4px 24px rgba(31,22,18,0.2);
+}
+.tfs-sheet.is-open { transform: translateX(-50%) translateY(0); }
+.tfs-sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--rule);
+  border-radius: 4px;
+  margin: 10px auto 4px;
+  flex-shrink: 0;
+}
+.tfs-sheet-photo {
+  margin: 8px 18px 0;
+  border: 1px solid var(--ink);
+  flex-shrink: 0;
+}
+.tfs-sheet-head {
+  padding: 16px 22px 16px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  flex-shrink: 0;
+}
+.tfs-sheet-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 6px;
+}
+.tfs-sheet-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+.tfs-sheet-tagline {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+.tfs-sheet-close {
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.tfs-sheet-close:hover { background: var(--orange); }
+.tfs-sheet-body {
+  overflow-y: auto;
+  padding: 18px 22px 12px;
+  flex: 1;
+}
+.tfs-sheet-cat { margin-bottom: 24px; }
+.tfs-sheet-cat-rule {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.tfs-sheet-cat-count { color: var(--ink-4); font-weight: 400; }
+.tfs-sheet-item {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.tfs-sheet-item:last-child { border-bottom: none; }
+.tfs-sheet-item-name {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+.tfs-sheet-item-meta {
+  display: flex; flex-wrap: wrap; gap: 5px; align-items: center;
+  margin-top: 3px;
+}
+.tfs-sheet-item-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--ink-3);
+}
+.tfs-diet {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  padding: 1px 5px;
+  background: var(--cream-2);
+  border: 1px solid var(--rule);
+  color: var(--ink-2);
+  border-radius: 2px;
+}
+.tfs-sheet-item-price {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: var(--orange);
+  white-space: nowrap;
+  font-style: italic;
+}
+.tfs-sheet-footer {
+  padding: 14px 22px 22px;
+  border-top: 1px solid var(--rule);
+  background: var(--cream);
+  flex-shrink: 0;
+}
+.tfs-sheet-btn {
+  width: 100%;
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 16px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.tfs-sheet-btn:hover { background: var(--orange-deep); }
+.tfs-sheet-btn.is-remove { background: var(--ink); }
+.tfs-sheet-btn.is-remove:hover { background: var(--ink-2); }
+
+/* ─── Sticky Tray ─────────────────────────────────────────── */
+.tfs-tray {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  width: calc(100% - 24px);
+  max-width: 416px;
+  margin-bottom: 12px;
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 100px;
+  padding: 8px 8px 8px 16px;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  box-shadow: 0 8px 24px rgba(31,22,18,0.3);
+  z-index: 90;
+  transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+  border: 1px solid rgba(244,237,224,0.1);
+}
+.tfs-tray.is-visible { transform: translateX(-50%) translateY(0); }
+.tfs-tray-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+.tfs-tray-count {
+  width: 36px; height: 36px;
+  background: var(--orange);
+  color: var(--cream);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.tfs-tray-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 1px;
+}
+.tfs-tray-tags {
+  font-size: 12.5px;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+.tfs-tray-btn {
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex; align-items: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.tfs-tray-btn:hover { background: var(--orange-deep); }
+
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0%   { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+/* Bottom safe area for tray */
+.tfs-shell { padding-bottom: 80px; }
