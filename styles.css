@@ -1,0 +1,951 @@
+/* ═══════════════════════════════════════════════════════════════════
+   THE FULL SPREAD — editorial mobile catering site
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  --cream:        #F4EDE0;
+  --cream-2:      #EFE6D4;
+  --paper:        #FBF6EC;
+  --ink:          #1F1612;
+  --ink-2:        #3A2E26;
+  --ink-3:        #6A5B4F;
+  --ink-4:        #A8998A;
+  --rule:         rgba(31,22,18,0.14);
+  --rule-soft:    rgba(31,22,18,0.08);
+  --orange:       #D8542B;
+  --orange-deep:  #B83F1A;
+  --orange-soft:  #F2D9C7;
+  --butter:       #E8B644;
+  --forest:       #1F2D22;
+  --forest-2:     #2E3F31;
+  --forest-rule:  rgba(244,237,224,0.14);
+
+  --serif: 'Instrument Serif', 'Cormorant Garamond', 'Times New Roman', serif;
+  --sans:  'Geist', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --mono:  'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--ink);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; }
+
+#root { display: flex; justify-content: center; min-height: 100vh; }
+
+.tfs-shell {
+  width: 100%;
+  max-width: 440px;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Arrow icon ─────────────────────────────────────────── */
+.tfs-arrow {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: var(--sans);
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+button:hover .tfs-arrow { transform: translateX(3px); }
+
+/* ─── Nav ─────────────────────────────────────────── */
+.tfs-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+  padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  backdrop-filter: blur(8px);
+}
+.tfs-mark {
+  font-family: var(--serif);
+  font-size: 19px;
+  letter-spacing: -0.01em;
+  display: flex; align-items: center; gap: 8px;
+}
+.tfs-mark em { color: var(--orange); font-style: italic; }
+.tfs-mark-glyph {
+  color: var(--orange);
+  font-size: 14px;
+  display: inline-block;
+  transform: translateY(-1px);
+}
+.tfs-nav-cta {
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  padding: 9px 16px;
+  border-radius: 100px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  display: inline-flex; align-items: center;
+  transition: background 0.2s;
+}
+.tfs-nav-cta:hover { background: var(--orange-deep); }
+.tfs-nav-right { display: flex; align-items: center; gap: 10px; }
+
+/* ─── Language Toggle ─────────────────────────────────────────── */
+.tfs-lang {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  padding: 2px;
+  font-family: var(--mono);
+}
+.tfs-lang-opt {
+  background: transparent;
+  border: none;
+  padding: 5px 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  border-radius: 100px;
+  transition: background 0.18s, color 0.18s;
+  min-width: 28px;
+}
+.tfs-lang-opt:hover { color: var(--ink); }
+.tfs-lang-opt.is-active {
+  background: var(--ink);
+  color: var(--cream);
+}
+.tfs-lang.is-footer {
+  border-color: rgba(244,237,224,0.18);
+}
+.tfs-lang.is-footer .tfs-lang-opt {
+  color: rgba(244,237,224,0.55);
+}
+.tfs-lang.is-footer .tfs-lang-opt:hover { color: var(--cream); }
+.tfs-lang.is-footer .tfs-lang-opt.is-active {
+  background: var(--orange);
+  color: var(--cream);
+}
+.tfs-footer-lang {
+  display: flex; justify-content: center;
+  margin-bottom: 18px;
+}
+
+/* ─── Section Header ─────────────────────────────────────────── */
+.tfs-section-head {
+  margin-bottom: 28px;
+}
+.tfs-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 14px;
+}
+.tfs-eyebrow-mark {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-style: italic;
+}
+.tfs-h2 {
+  font-family: var(--serif);
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.tfs-h2 em { font-style: italic; color: var(--orange); }
+.tfs-section-head.is-light .tfs-h2 { color: var(--cream); }
+.tfs-section-head.is-light .tfs-eyebrow { color: var(--butter); }
+.tfs-section-sub {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-3);
+  margin-top: 16px;
+  max-width: 320px;
+  text-wrap: pretty;
+}
+.tfs-section-head.is-light .tfs-section-sub { color: rgba(244,237,224,0.65); }
+
+/* ─── Hero ─────────────────────────────────────────── */
+.tfs-hero {
+  padding: 32px 22px 36px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-hero-rule {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.tfs-hero-dot { color: var(--orange); font-size: 6px; transform: translateY(-2px); }
+.tfs-hero-h1 {
+  font-family: var(--serif);
+  font-size: 76px;
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 24px;
+  animation: fadeUp 0.6s ease both;
+}
+.tfs-hero-h1 em { font-style: italic; color: var(--orange); }
+.tfs-hero-underline {
+  position: relative;
+  display: inline-block;
+}
+.tfs-hero-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 6px;
+  height: 12px;
+  background: var(--butter);
+  z-index: -1;
+  border-radius: 2px;
+}
+.tfs-hero-photo {
+  position: relative;
+  margin: 0 -22px 24px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.tfs-hero-photo-tag {
+  position: absolute;
+  bottom: 12px; right: 12px;
+  background: var(--cream);
+  border: 1px solid var(--ink);
+  padding: 5px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex; gap: 8px; align-items: center;
+}
+.tfs-tag-num { color: var(--orange); font-weight: 600; }
+.tfs-hero-lede {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.3;
+  color: var(--ink-2);
+  margin-bottom: 24px;
+  text-wrap: pretty;
+  animation: fadeUp 0.6s 0.18s ease both;
+}
+.tfs-hero-btns {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s 0.26s ease both;
+}
+.tfs-btn-primary {
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 15px 22px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  display: inline-flex; align-items: center;
+  transition: background 0.2s;
+}
+.tfs-btn-primary:hover { background: var(--orange-deep); }
+.tfs-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  padding: 13.5px 22px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.tfs-btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+.tfs-hero-credits {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  gap: 12px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+}
+.tfs-credit-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  line-height: 0.95;
+  color: var(--orange);
+  margin-bottom: 6px;
+  font-style: italic;
+}
+.tfs-credit-label {
+  font-size: 10.5px;
+  line-height: 1.3;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+}
+.tfs-credit-line {
+  background: var(--rule);
+  width: 1px;
+  height: 100%;
+}
+
+/* ─── Cuisines ─────────────────────────────────────────── */
+.tfs-cuisines {
+  padding: 48px 22px 44px;
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-cuisine-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.tfs-cuisine-card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.2s, box-shadow 0.2s;
+}
+.tfs-cuisine-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-2px);
+}
+.tfs-cuisine-card.is-selected {
+  border-color: var(--orange);
+  background: var(--orange-soft);
+  box-shadow: 4px 4px 0 var(--orange);
+  transform: translateY(-2px);
+}
+.tfs-cuisine-photo {
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-photo { border-bottom-color: var(--orange); }
+.tfs-cuisine-check {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 24px; height: 24px;
+  background: var(--orange);
+  color: var(--cream);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.tfs-cuisine-meta { padding: 12px 12px 14px; }
+.tfs-cuisine-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 6px;
+}
+.tfs-cuisine-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  letter-spacing: 0.05em;
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-num { color: var(--orange-deep); }
+.tfs-cuisine-info {
+  background: transparent;
+  border: 1px solid var(--rule);
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink-3);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.tfs-cuisine-info:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--cream);
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-info { border-color: var(--orange); color: var(--orange-deep); }
+.tfs-cuisine-name {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.tfs-cuisine-card.is-selected .tfs-cuisine-name { color: var(--orange-deep); }
+.tfs-cuisine-desc {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+}
+
+.tfs-cuisine-cta {
+  width: 100%;
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  padding: 16px 20px;
+  border-radius: 100px;
+  font-size: 14.5px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.tfs-cuisine-cta:hover { background: var(--orange); }
+
+/* ─── How it works ─────────────────────────────────────────── */
+.tfs-how {
+  background: var(--forest);
+  color: var(--cream);
+  padding: 52px 22px 48px;
+  position: relative;
+}
+.tfs-how::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: var(--orange);
+}
+.tfs-steps {
+  display: flex; flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.tfs-step {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 14px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--forest-rule);
+  align-items: baseline;
+}
+.tfs-step:last-child { border-bottom: 1px solid var(--forest-rule); }
+.tfs-step:first-child { border-top: 1px solid var(--forest-rule); }
+.tfs-step-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 32px;
+  color: var(--butter);
+  line-height: 1;
+}
+.tfs-step-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.tfs-step-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(244,237,224,0.7);
+  text-wrap: pretty;
+}
+.tfs-how-photo {
+  border: 1px solid var(--forest-rule);
+}
+
+/* ─── Perks ─────────────────────────────────────────── */
+.tfs-perks {
+  padding: 48px 22px 44px;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+}
+.tfs-perks-list {
+  border-top: 1px solid var(--rule);
+}
+.tfs-perk {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+.tfs-perk-kicker {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--orange);
+}
+.tfs-perk-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.tfs-perk-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+/* ─── Order / Quote form ─────────────────────────────────────────── */
+.tfs-order {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 52px 22px 56px;
+  position: relative;
+}
+.tfs-order::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: var(--orange);
+}
+
+.tfs-form-summary {
+  background: rgba(244,237,224,0.05);
+  border: 1px solid rgba(244,237,224,0.12);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+.tfs-form-summary-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 10px;
+}
+.tfs-form-summary-empty {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(244,237,224,0.4);
+}
+.tfs-form-summary-tags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.tfs-summary-tag {
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 5px 10px 5px 12px;
+  border-radius: 100px;
+  font-size: 11.5px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: background 0.15s;
+}
+.tfs-summary-tag:hover { background: var(--orange-deep); }
+.tfs-summary-tag-x {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.tfs-field {
+  margin-bottom: 14px;
+}
+.tfs-field-label {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 6px;
+}
+.tfs-field-err {
+  color: var(--orange);
+  font-style: normal;
+}
+.tfs-field-input {
+  width: 100%;
+  background: rgba(244,237,224,0.05);
+  border: 1px solid rgba(244,237,224,0.14);
+  border-radius: 12px;
+  padding: 13px 15px;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--cream);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none;
+  resize: vertical;
+}
+.tfs-field-input::placeholder {
+  color: rgba(244,237,224,0.28);
+}
+.tfs-field-input:focus {
+  border-color: var(--orange);
+  background: rgba(244,237,224,0.08);
+}
+.tfs-field.has-err .tfs-field-input {
+  border-color: var(--orange);
+}
+.tfs-form-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+
+.tfs-submit {
+  width: 100%;
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 17px;
+  border-radius: 100px;
+  font-size: 15.5px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.tfs-submit:hover:not(:disabled) { background: var(--orange-deep); }
+.tfs-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.tfs-form-server-err {
+  text-align: center;
+  font-size: 13px;
+  color: var(--orange);
+  margin-top: 12px;
+}
+.tfs-form-note {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: rgba(244,237,224,0.4);
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+/* Success state */
+.tfs-success {
+  text-align: center;
+  padding: 32px 0;
+}
+.tfs-success-mark {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--cream);
+  font-size: 28px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-family: var(--serif);
+}
+.tfs-success-eyebrow {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--butter);
+  margin-bottom: 12px;
+}
+.tfs-success-h {
+  color: var(--cream);
+  margin-bottom: 16px;
+}
+.tfs-success-sub {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(244,237,224,0.65);
+}
+
+/* ─── Footer ─────────────────────────────────────────── */
+.tfs-footer {
+  background: var(--ink);
+  color: rgba(244,237,224,0.5);
+  padding: 36px 22px 28px;
+  text-align: center;
+  border-top: 1px solid rgba(244,237,224,0.06);
+}
+.tfs-footer-mark {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--cream);
+  margin-bottom: 6px;
+  display: flex; justify-content: center; gap: 8px;
+}
+.tfs-footer-mark em { color: var(--orange); font-style: italic; }
+.tfs-footer-tag {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 22px;
+}
+.tfs-footer-links {
+  display: flex; justify-content: center; gap: 12px; align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.tfs-footer-links a {
+  font-size: 13px;
+  color: rgba(244,237,224,0.65);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.tfs-footer-links a:hover { color: var(--orange); }
+.tfs-footer-dot { color: rgba(244,237,224,0.3); }
+.tfs-footer-rule {
+  height: 1px;
+  background: rgba(244,237,224,0.1);
+  margin-bottom: 14px;
+}
+.tfs-footer-copy {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: rgba(244,237,224,0.35);
+}
+.tfs-footer-attr {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: rgba(244,237,224,0.25);
+}
+.tfs-footer-attr a {
+  color: rgba(244,237,224,0.45);
+  text-decoration: underline;
+  text-decoration-color: rgba(244,237,224,0.2);
+  text-underline-offset: 2px;
+}
+.tfs-footer-attr a:hover { color: rgba(244,237,224,0.7); }
+
+/* ─── Bottom Sheet ─────────────────────────────────────────── */
+.tfs-sheet-overlay {
+  position: fixed; inset: 0;
+  background: rgba(31,22,18,0.6);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(4px);
+}
+.tfs-sheet-overlay.is-open { opacity: 1; pointer-events: all; }
+.tfs-sheet {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: 100%; max-width: 440px;
+  background: var(--cream);
+  border-radius: 24px 24px 0 0;
+  z-index: 101;
+  transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+  max-height: 90vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 -4px 24px rgba(31,22,18,0.2);
+}
+.tfs-sheet.is-open { transform: translateX(-50%) translateY(0); }
+.tfs-sheet-handle {
+  width: 36px; height: 4px;
+  background: var(--rule);
+  border-radius: 4px;
+  margin: 10px auto 4px;
+  flex-shrink: 0;
+}
+.tfs-sheet-photo {
+  margin: 8px 18px 0;
+  border: 1px solid var(--ink);
+  flex-shrink: 0;
+}
+.tfs-sheet-head {
+  padding: 16px 22px 16px;
+  border-bottom: 1px solid var(--rule);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  flex-shrink: 0;
+}
+.tfs-sheet-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 6px;
+}
+.tfs-sheet-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+.tfs-sheet-tagline {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+.tfs-sheet-close {
+  background: var(--ink);
+  color: var(--cream);
+  border: none;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.tfs-sheet-close:hover { background: var(--orange); }
+.tfs-sheet-body {
+  overflow-y: auto;
+  padding: 18px 22px 12px;
+  flex: 1;
+}
+.tfs-sheet-cat { margin-bottom: 24px; }
+.tfs-sheet-cat-rule {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--ink);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.tfs-sheet-cat-count { color: var(--ink-4); font-weight: 400; }
+.tfs-sheet-item {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dotted var(--rule);
+}
+.tfs-sheet-item:last-child { border-bottom: none; }
+.tfs-sheet-item-name {
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.25;
+  color: var(--ink);
+  margin-bottom: 3px;
+  letter-spacing: -0.01em;
+}
+.tfs-sheet-item-meta {
+  display: flex; flex-wrap: wrap; gap: 5px; align-items: center;
+  margin-top: 3px;
+}
+.tfs-sheet-item-note {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--ink-3);
+}
+.tfs-diet {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  padding: 1px 5px;
+  background: var(--cream-2);
+  border: 1px solid var(--rule);
+  color: var(--ink-2);
+  border-radius: 2px;
+}
+.tfs-sheet-item-price {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: var(--orange);
+  white-space: nowrap;
+  font-style: italic;
+}
+.tfs-sheet-footer {
+  padding: 14px 22px 22px;
+  border-top: 1px solid var(--rule);
+  background: var(--cream);
+  flex-shrink: 0;
+}
+.tfs-sheet-btn {
+  width: 100%;
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 16px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.tfs-sheet-btn:hover { background: var(--orange-deep); }
+.tfs-sheet-btn.is-remove { background: var(--ink); }
+.tfs-sheet-btn.is-remove:hover { background: var(--ink-2); }
+
+/* ─── Sticky Tray ─────────────────────────────────────────── */
+.tfs-tray {
+  position: fixed;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  width: calc(100% - 24px);
+  max-width: 416px;
+  margin-bottom: 12px;
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 100px;
+  padding: 8px 8px 8px 16px;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  box-shadow: 0 8px 24px rgba(31,22,18,0.3);
+  z-index: 90;
+  transition: transform 0.4s cubic-bezier(0.32,0.72,0,1);
+  border: 1px solid rgba(244,237,224,0.1);
+}
+.tfs-tray.is-visible { transform: translateX(-50%) translateY(0); }
+.tfs-tray-left { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
+.tfs-tray-count {
+  width: 36px; height: 36px;
+  background: var(--orange);
+  color: var(--cream);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.tfs-tray-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(244,237,224,0.5);
+  margin-bottom: 1px;
+}
+.tfs-tray-tags {
+  font-size: 12.5px;
+  color: var(--cream);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+.tfs-tray-btn {
+  background: var(--orange);
+  color: var(--cream);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  display: inline-flex; align-items: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.tfs-tray-btn:hover { background: var(--orange-deep); }
+
+/* ─── Animations ─────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pop {
+  0%   { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+/* Bottom safe area for tray */
+.tfs-shell { padding-bottom: 80px; }
