@@ -240,417 +240,370 @@
 const selected = new Set();
 const menus = {
   "Breakfast": {
-    restaurant: "Orbital Kitchens",
+    restaurant: "Fresh morning spreads, hot platters & build-your-own breakfast packages",
     categories: [
       { name: "Packages", items: [
-        { name: "Breakfast Sandwich Package", price: "$7.99" },
-        { name: "Breakfast Burritos Package", price: "$12" },
-        { name: "BYO Classic Breakfast Package", price: "$14" },
-        { name: "BYO Mexican Breakfast Package", price: "$14.50" },
-        { name: "Overnight Oats Set", price: "$6" }
+        { name: "Breakfast Sandwich Package", price: "$11.99 · Min 10" },
+        { name: "Breakfast Burritos Package", price: "$15.99 · Min 5" },
+        { name: "BYO Classic Breakfast Package", price: "$19 · Min 5" },
+        { name: "BYO Mexican Breakfast Package", price: "$19.50 · Min 10" },
+        { name: "Overnight Oats Set", price: "$6 · Min 10" }
       ]},
-      { name: "Eggs", items: [{ name: "Egg Breakfast Platter", price: "$60" }]},
+      { name: "Eggs", items: [{ name: "Egg Breakfast Platter", price: "$80" }]},
       { name: "Proteins", items: [
-        { name: "Applewood Bacon Platter", price: "$50" },
-        { name: "Al Pastor Mushroom Platter", price: "$65" },
-        { name: "Braised Beef Platter", price: "$75" },
-        { name: "Grilled Sausage Patty Platter", price: "$50" }
+        { name: "Applewood Bacon Platter", price: "$75" },
+        { name: "Al Pastor Mushroom Platter", price: "$90" },
+        { name: "Braised Beef Platter", price: "$100" },
+        { name: "Grilled Sausage Patty Platter", price: "$75" }
       ]},
       { name: "Sides & Toppings", items: [
-        { name: "Sliced Avocado Platter", price: "$35" },
-        { name: "Tater Tots Platter", price: "$35" },
-        { name: "Shredded Cheddar Cheese Platter", price: "$20" },
-        { name: "Oaxaca Cheese Platter", price: "$20" },
-        { name: "Black Beans Platter", price: "$30" },
-        { name: "Pico de Gallo Platter", price: "$20" },
-        { name: "Sweet Potato Hash Platter", price: "$50" }
+        { name: "Sliced Avocado Platter", price: "$55" },
+        { name: "Tater Tots Platter", price: "$55" },
+        { name: "Shredded Cheddar Cheese Platter", price: "$35" },
+        { name: "Oaxaca Cheese Platter", price: "$45" },
+        { name: "Black Beans Platter", price: "$45" },
+        { name: "Pico de Gallo Platter", price: "$35" },
+        { name: "Sweet Potato Hash Platter", price: "$75" }
       ]}
     ]
   },
   "Thai": {
-    restaurant: "Little Mint",
+    restaurant: "Authentic Thai noodles, curries, stir fry & fresh vegetable platters",
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Popular Large Package", price: "$400" },
-        { name: "Popular Medium Package", price: "$310" },
-        { name: "Popular Small Package", price: "$215" }
+        { name: "Popular Large Package", price: "$525 · Serves 30" },
+        { name: "Popular Medium Package", price: "$410 · Serves 20" },
+        { name: "Popular Small Package", price: "$315 · Serves 10" }
       ]},
       { name: "Party Bundles", items: [
-        { name: "12–16 Person Party Bundle", price: "$215" },
-        { name: "18–22 Person Party Bundle", price: "$310" },
-        { name: "26–30 Person Party Bundle", price: "$400" }
+        { name: "12–16 Person Party Bundle", price: "$315 · 2 Entrees + 2 Apps/Veg" },
+        { name: "18–22 Person Party Bundle", price: "$410 · 3 Entrees + 3 Apps/Veg" },
+        { name: "26–30 Person Party Bundle", price: "$525 · 3 Entrees + 3 Apps/Veg" }
       ]},
       { name: "Appetizers", items: [
         { name: "Pan Fried Pork Dumplings Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$50" },
-        { name: "Pan Fried Spinach Dumplings Platter (30 pcs)", tags: ["V","VG","DF","EF","NF"], price: "$50" },
-        { name: "Crispy Shrimp Wonton Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$60" },
-        { name: "Crispy Vegetable Spring Rolls Platter (30 pcs)", tags: ["V","VG","DF","EF","NF"], price: "$50" },
-        { name: "Satay Chicken Skewers Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$55" }
+        { name: "Pan Fried Spinach Dumplings Platter (30 pcs)", tags: ["V","VG","DF","EF","NF"], price: "$75" },
+        { name: "Crispy Shrimp Wonton Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$85" },
+        { name: "Crispy Vegetable Spring Rolls Platter (30 pcs)", tags: ["V","VG","DF","EF","NF"], price: "$75" },
+        { name: "Satay Chicken Skewers Platter (30 pcs)", tags: ["DF","EF","NF"], price: "$80" }
       ]},
       { name: "Mains", items: [
-        { name: "Chili Garlic Platter", price: "$75" },
-        { name: "Spicy Basil Platter", tags: ["DF","EF","GF","NF"], price: "$75" },
-        { name: "Pad Thai Platter", tags: ["V","DF","GF"], price: "$75" },
-        { name: "Pad See Ew Platter", tags: ["DF","NF"], price: "$75" },
-        { name: "Drunken Noodle Platter", tags: ["DF","NF"], price: "$75" },
-        { name: "Indonesian Mee Goreng Platter", tags: ["V","DF","NF"], price: "$75" },
-        { name: "Thai Style Fried Rice Platter", tags: ["DF","NF"], price: "$75" },
-        { name: "Basil Fried Rice Platter", tags: ["DF","GF","NF"], price: "$75" }
+        { name: "Chili Garlic Platter", price: "$105" },
+        { name: "Spicy Basil Platter", tags: ["DF","EF","GF","NF"], price: "$105" },
+        { name: "Pad Thai Platter", tags: ["V","DF","GF"], price: "$105" },
+        { name: "Pad See Ew Platter", tags: ["DF","NF"], price: "$105" },
+        { name: "Drunken Noodle Platter", tags: ["DF","NF"], price: "$105" },
+        { name: "Indonesian Mee Goreng Platter", tags: ["V","DF","NF"], price: "$105" },
+        { name: "Thai Style Fried Rice Platter", tags: ["DF","NF"], price: "$105" },
+        { name: "Basil Fried Rice Platter", tags: ["DF","GF","NF"], price: "$105" }
       ]},
       { name: "Vegetables", items: [
-        { name: "Baby Bok Choy Platter", tags: ["DF","EF","GF","NF"], price: "$55" },
-        { name: "Chinese Broccoli Platter", tags: ["DF","EF","NF"], price: "$60" },
-        { name: "American Broccoli Platter", tags: ["V","VG","DF","EF","NF"], price: "$55" }
-      ]},
-      { name: "Individual Bowls — Wok Noodles", items: [
-        { name: "Pad Thai", price: "$15.95" },
-        { name: "Indonesian Mee Goreng", price: "$15.95" },
-        { name: "Pad See Ew", price: "$15.95" },
-        { name: "Drunken Noodle", price: "$15.95" }
-      ]},
-      { name: "Individual Bowls — Curries", items: [
-        { name: "Green Curry", price: "$15.95" },
-        { name: "Massaman Curry", price: "$15.95" }
-      ]},
-      { name: "Soups", items: [
-        { name: "Curry Laksa Soup", price: "$7.95" },
-        { name: "Tom Yum Soup", price: "$7.95" },
-        { name: "Tom Kha Soup", price: "$7.95" },
-        { name: "Ultimate Curry Laksa Noodle Soup", price: "$15.50" }
+        { name: "Baby Bok Choy Platter", tags: ["DF","EF","GF","NF"], price: "$80" },
+        { name: "Chinese Broccoli Platter", tags: ["DF","EF","NF"], price: "$85" },
+        { name: "American Broccoli Platter", tags: ["V","VG","DF","EF","NF"], price: "$80" }
       ]}
     ]
   },
   "Hawaiian BBQ": {
-    restaurant: "Braddahs",
+    restaurant: "Island-inspired Hawaiian BBQ with bold proteins, rice bowls & tropical sides",
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Popular Small Package", price: "$150" },
-        { name: "Popular Medium Package", price: "$315" },
-        { name: "Popular Large Package", price: "$430" },
-        { name: "Gluten Free Package", price: "$455" },
-        { name: "Fish & Plant Friendly Large Package", price: "$445" }
+        { name: "Popular Small Package", price: "$250 · Serves 10" },
+        { name: "Popular Medium Package", price: "$415 · Serves 20" },
+        { name: "Popular Large Package", price: "$530 · Serves 30" },
+        { name: "Gluten Free Package", price: "$555 · Serves 30" },
+        { name: "Fish & Plant Friendly Large Package", price: "$545 · BBQ chicken, salmon, tofu, rice, greens, corn, sweet potato, seaweed salad, cucumber & sauces" }
       ]},
       { name: "Build Your Own", items: [
-        { name: "Large (Build Your Own)", price: "$420" },
-        { name: "Medium (Build Your Own)", price: "$295" },
-        { name: "Small (Build Your Own)", price: "$150" }
+        { name: "Large (Build Your Own)", price: "$520 · ~30 people · 3 Bases, 3 Proteins, 4 Sides, 3 Sauces" },
+        { name: "Medium (Build Your Own)", price: "$395 · ~20 people · 2 Bases, 2 Proteins, 3 Sides, 2 Sauces" },
+        { name: "Small (Build Your Own)", price: "$250 · ~10 people · 1 Base, 1 Protein, 2 Sides, 1 Sauce" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Boneless Aloha Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$60" },
-        { name: "Spam Musubi Platter", tags: ["DF","EF","GF","NF"], price: "$50" },
-        { name: "Traditional Aloha Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$60" },
-        { name: "Shishito Peppers", tags: ["V","VG","DF","EF","GF","NF"], price: "$55" }
+        { name: "Boneless Aloha Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$85" },
+        { name: "Spam Musubi Platter", tags: ["DF","EF","GF","NF"], price: "$75" },
+        { name: "Traditional Aloha Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$85" },
+        { name: "Shishito Peppers", tags: ["V","VG","DF","EF","GF","NF"], price: "$95" }
       ]},
       { name: "Base", items: [
-        { name: "White Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$30" },
-        { name: "Brown Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$30" },
-        { name: "Egg Fried Rice Platter", tags: ["V","DF","NF"], price: "$30" },
-        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$30" },
-        { name: "Spring Mix Salad Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$30" }
+        { name: "White Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$45" },
+        { name: "Brown Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$55" },
+        { name: "Egg Fried Rice Platter", tags: ["V","DF","NF"], price: "$45" },
+        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$45" },
+        { name: "Spring Mix Salad Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$45" }
       ]},
       { name: "Protein", items: [
-        { name: "Bulgogi Beef Platter", tags: ["DF","EF","NF"], price: "$75" },
-        { name: "Crispy Garlic Tofu Platter", tags: ["V","VG","DF","EF","NF"], price: "$60" },
-        { name: "Chicken Katsu Platter", tags: ["DF","EF","NF"], price: "$70" },
-        { name: "Teriyaki Salmon Platter", tags: ["EF","NF"], price: "$90" },
-        { name: "Garlic Salmon Platter", price: "$90" },
-        { name: "Pork Katsu Platter", tags: ["DF","EF","NF"], price: "$70" },
-        { name: "BBQ Chicken Platter", tags: ["DF","EF","GF","NF"], price: "$65" },
-        { name: "Shrimp Tempura Platter", price: "$80" },
-        { name: "Braised Pork Belly", tags: ["DF","EF","GF","NF"], price: "$70" }
+        { name: "Bulgogi Beef Platter", tags: ["DF","EF","NF"], price: "$115" },
+        { name: "Crispy Garlic Tofu Platter", tags: ["V","VG","DF","EF","NF"], price: "$85" },
+        { name: "Chicken Katsu Platter", tags: ["DF","EF","NF"], price: "$95" },
+        { name: "Teriyaki Salmon Platter", tags: ["EF","NF"], price: "$135" },
+        { name: "Garlic Salmon Platter", price: "$135" },
+        { name: "Pork Katsu Platter", tags: ["DF","EF","NF"], price: "$95" },
+        { name: "BBQ Chicken Platter", tags: ["DF","EF","GF","NF"], price: "$105" },
+        { name: "Shrimp Tempura Platter", price: "$110" },
+        { name: "Braised Pork Belly", tags: ["DF","EF","GF","NF"], price: "$95" }
       ]},
       { name: "Sides", items: [
-        { name: "Seaweed Salad Platter", tags: ["V","DF","EF","NF"], price: "$35" },
-        { name: "Hawaiian Macaroni Salad Platter", price: "$40" },
-        { name: "Roasted Corn Platter", tags: ["V","EF","GF"], price: "$40" },
-        { name: "Sweet Potato Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$50" },
-        { name: "Coleslaw Platter", tags: ["V","DF","GF","NF"], price: "$40" },
-        { name: "Crab Salad Platter", price: "$35" },
-        { name: "Mac & Cheese Platter", tags: ["V","EF","NF"], price: "$60" }
-      ]},
-      { name: "Individual Bowls", items: [
-        { name: "BBQ Mix Bowl", price: "$16.95" },
-        { name: "Pork Katsu Bowl", price: "$14.65" },
-        { name: "Crispy Garlic Tofu Bowl", price: "$13.85" },
-        { name: "Bulgogi Beef Bowl", price: "$14.95" },
-        { name: "Chicken Katsu Bowl", price: "$14.65" },
-        { name: "Seared Salmon Bowl", price: "$16.50" },
-        { name: "BBQ Chicken Bowl", price: "$17.99" }
+        { name: "Seaweed Salad Platter", tags: ["V","DF","EF","NF"], price: "$50" },
+        { name: "Hawaiian Macaroni Salad Platter", price: "$55" },
+        { name: "Roasted Corn Platter", tags: ["V","EF","GF"], price: "$55" },
+        { name: "Sweet Potato Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$65" },
+        { name: "Coleslaw Platter", tags: ["V","DF","GF","NF"], price: "$55" },
+        { name: "Crab Salad Platter", price: "$50" },
+        { name: "Mac & Cheese Platter", tags: ["V","EF","NF"], price: "$85" }
       ]}
     ]
   },
   "Poke Bowls": {
-    restaurant: "Don Poke",
+    restaurant: "Fresh poke bowls with premium fish, crispy proteins & flavorful toppings",
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Popular Small Package", price: "$16.50/pp" },
-        { name: "Popular Medium Package", price: "$15.95/pp" },
-        { name: "Popular Large Package", price: "$15.50/pp" },
-        { name: "Gluten Free Large Package", price: "$15.50/pp" },
-        { name: "Fish/Plant Friendly Large Package", price: "$15.50/pp" }
+        { name: "Popular Small Package", price: "$21.50/pp · Min 10" },
+        { name: "Popular Medium Package", price: "$20.95/pp · Min 20" },
+        { name: "Popular Large Package", price: "$20.50/pp · Min 30" },
+        { name: "Gluten Free Large Package", price: "$20.50/pp · Min 30" },
+        { name: "Fish/Plant Friendly Large Package", price: "$20.50/pp · Min 20" }
+      ]},
+      { name: "Package Includes", items: [
+        { name: "Base: White Rice, Spring Mix Salad", price: "" },
+        { name: "Poke: Ahi Tuna, Spicy Salmon", price: "" },
+        { name: "Toppings: Edamame, Roasted Corn, Seaweed Salad, Mango, Kani Salad, Onion Crisps", price: "" },
+        { name: "Sauce: Don Poke Sauce, Yuzu Ponzu", price: "" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Spam Musubi Platter", tags: ["DF","EF","GF","NF"], price: "$50" },
-        { name: "Hawaiian Garlic Chicken Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$50" },
-        { name: "Hawaiian Garlic Boneless Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$50" }
+        { name: "Spam Musubi Platter", tags: ["DF","EF","GF","NF"], price: "$75" },
+        { name: "Hawaiian Garlic Chicken Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$75" },
+        { name: "Hawaiian Garlic Boneless Wings (30 pcs)", tags: ["DF","EF","NF"], price: "$75" }
       ]},
       { name: "Base", items: [
-        { name: "Egg Fried Rice Platter", tags: ["V","DF","NF"], price: "$30" },
-        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$30" },
-        { name: "White Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$30" }
+        { name: "Egg Fried Rice Platter", tags: ["V","DF","NF"], price: "$45" },
+        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$45" },
+        { name: "White Rice Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$45" }
       ]},
       { name: "Protein", items: [
-        { name: "Crispy Garlic Tofu Platter", tags: ["V","VG","DF","EF","NF"], price: "$60" },
-        { name: "Ahi Tuna Platter", tags: ["DF","EF","NF"], price: "$120" },
-        { name: "Spicy Salmon Platter", tags: ["DF","EF","NF"], price: "$120" },
-        { name: "Classic Salmon Platter", tags: ["DF","EF","GF"], price: "$120" },
-        { name: "Spicy Tuna Platter", tags: ["DF","EF","GF","NF"], price: "$120" },
-        { name: "Yuzu Salmon & Tuna Platter", price: "$120" }
+        { name: "Crispy Garlic Tofu Platter", tags: ["V","VG","DF","EF","NF"], price: "$85" },
+        { name: "Ahi Tuna Platter", tags: ["DF","EF","NF"], price: "$155" },
+        { name: "Spicy Salmon Platter", tags: ["DF","EF","NF"], price: "$155" },
+        { name: "Classic Salmon Platter", tags: ["DF","EF","GF"], price: "$155" },
+        { name: "Spicy Tuna Platter", tags: ["DF","EF","GF","NF"], price: "$155" },
+        { name: "Yuzu Salmon & Tuna Platter", price: "$155" }
       ]},
       { name: "Salads & Sides", items: [
-        { name: "Hawaiian Macaroni Salad Platter", tags: ["V","DF","NF"], price: "$40" },
-        { name: "Seaweed Salad Platter", tags: ["V","VG","DF","EF","NF"], price: "$35" },
-        { name: "Mango Crunch Salad Platter", tags: ["DF","EF","NF"], price: "$50" },
-        { name: "Spicy Crab Salad Platter", tags: ["DF","NF"], price: "$35" }
-      ]},
-      { name: "Individual Bowls", items: [
-        { name: "Don Poke Bowl", price: "$14.95" },
-        { name: "Ahi Tuna Bowl", price: "$14.95" },
-        { name: "Spicy Salmon Lover Bowl", price: "$14.95" },
-        { name: "Citrus Bowl", price: "$14.95" },
-        { name: "Crispy Garlic Tofu Bowl", price: "$14.95" }
+        { name: "Hawaiian Macaroni Salad Platter", tags: ["V","DF","NF"], price: "$55" },
+        { name: "Seaweed Salad Platter", tags: ["V","VG","DF","EF","NF"], price: "$45" },
+        { name: "Mango Crunch Salad Platter", tags: ["DF","EF","NF"], price: "$65" },
+        { name: "Spicy Crab Salad Platter", tags: ["DF","NF"], price: "$45" }
       ]}
     ]
   },
   "Mexican": {
-    restaurant: "Poblano",
+    restaurant: "Vibrant Mexican catering with bold proteins, house salsas & fresh toppings",
     categories: [
       { name: "Signature Packages", items: [
-        { name: "Single Protein Package", price: "$13/pp" },
-        { name: "Double Protein Package", price: "$15/pp" },
-        { name: "Triple Protein Package", price: "$17/pp" }
+        { name: "Single Protein Package", price: "$18/pp · Min 10" },
+        { name: "Double Protein Package", price: "$20/pp · Min 10" },
+        { name: "Triple Protein Package", price: "$22/pp · Min 10" }
+      ]},
+      { name: "Package Includes", items: [
+        { name: "Poblano Chicken, Barbacoa Beef, Al Pastor Pork", price: "" },
+        { name: "Mexican Rice, Black Beans, Poblano Fajita Veggies", price: "" },
+        { name: "Sweet Potatoes, Corn, Oaxaca Cheese", price: "" },
+        { name: "Lime Crema, Red & Green Salsa, Tortillas", price: "" }
       ]},
       { name: "Appetizer", items: [
-        { name: "Chips & Guac + Dips Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$35" }
+        { name: "Chips & Guac + Dips Platter", tags: ["V","VG","DF","EF","GF","NF"], price: "$55" }
       ]},
       { name: "Base", items: [
-        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$30" },
-        { name: "Mexican Rice Platter", tags: ["V","VG","GF"], price: "$30" }
+        { name: "Lemon Super Greens Platter", tags: ["V","DF","EF","GF","NF"], price: "$45" },
+        { name: "Mexican Rice Platter", tags: ["V","VG","GF"], price: "$45" }
       ]},
       { name: "Protein", items: [
-        { name: "Fable Al Pastor Shiitake Mushroom Platter", tags: ["V"], price: "$65" },
-        { name: "Al Pastor Pork Platter", tags: ["GF"], price: "$60" },
-        { name: "Barbacoa Beef Platter", tags: ["GF"], price: "$65" },
-        { name: "Chicken Platter", tags: ["GF"], price: "$60" },
-        { name: "Yucatan Shrimp Platter", tags: ["GF"], price: "$75" }
+        { name: "Fable Al Pastor Shiitake Mushroom Platter", tags: ["V"], price: "$95" },
+        { name: "Al Pastor Pork Platter", tags: ["GF"], price: "$85" },
+        { name: "Barbacoa Beef Platter", tags: ["GF"], price: "$95" },
+        { name: "Chicken Platter", tags: ["GF"], price: "$85" },
+        { name: "Yucatan Shrimp Platter", tags: ["GF"], price: "$105" }
       ]},
       { name: "Toppings", items: [
-        { name: "Roasted Corn Platter", tags: ["V","GF"], price: "$25" },
-        { name: "Guacamole Platter", tags: ["V","GF"], price: "$35" },
-        { name: "Oaxaca Cheese Platter", tags: ["GF"], price: "$20" },
-        { name: "Pickled Red Onions Platter", tags: ["V","GF"], price: "$15" },
-        { name: "Pico de Gallo Platter", tags: ["V","GF"], price: "$20" },
-        { name: "Fajita Veggies Platter", tags: ["V","GF"], price: "$20" },
-        { name: "Black Beans Platter", tags: ["V","VG","GF"], price: "$30" },
-        { name: "Pinto Beans Platter", tags: ["V","VG","GF"], price: "$30" }
+        { name: "Roasted Corn Platter", tags: ["V","GF"], price: "$35" },
+        { name: "Guacamole Platter", tags: ["V","GF"], price: "$55" },
+        { name: "Oaxaca Cheese Platter", tags: ["GF"], price: "$35" },
+        { name: "Pickled Red Onions Platter", tags: ["V","GF"], price: "$25" },
+        { name: "Pico de Gallo Platter", tags: ["V","GF"], price: "$35" },
+        { name: "Fajita Veggies Platter", tags: ["V","GF"], price: "$35" },
+        { name: "Black Beans Platter", tags: ["V","VG","GF"], price: "$45" },
+        { name: "Pinto Beans Platter", tags: ["V","VG","GF"], price: "$45" }
       ]},
       { name: "Salsas", items: [
-        { name: "Green Salsa — Mild", tags: ["V","GF"], price: "$10" },
-        { name: "Red Salsa — Smoky", tags: ["V","GF"], price: "$10" },
-        { name: "Lime Crema", tags: ["GF"], price: "$10" },
-        { name: "Chile De Arbol Salsa — Hot", tags: ["V","GF"], price: "$10" }
-      ]},
-      { name: "Signature Bowls", items: [
-        { name: "Wild Poblano Bowl", price: "$12.95" },
-        { name: "Classic Poblano Bowl", price: "$12.95" },
-        { name: "Smoked Poblano Bowl", price: "$12.95" }
+        { name: "Green Salsa — Mild", tags: ["V","GF"], price: "$15" },
+        { name: "Red Salsa — Smoky", tags: ["V","GF"], price: "$15" },
+        { name: "Lime Crema", tags: ["GF"], price: "$15" },
+        { name: "Chile De Arbol Salsa — Hot", tags: ["V","GF"], price: "$15" }
       ]}
     ]
   },
   "Chinese": {
-    restaurant: "Lucky Mao",
+    restaurant: "Classic Chinese platters — dumplings, entrees, noodles & more",
     categories: [
       { name: "BYO Packages", items: [
-        { name: "12–16 Person Party Bundle", price: "$225" },
-        { name: "18–22 Person Party Bundle", price: "$310" },
-        { name: "26–30 Person Party Bundle", price: "$420" }
+        { name: "12–16 Person Party Bundle", price: "$325 · 2 Entrees + 2 Apps/Veg + 1 Base" },
+        { name: "18–22 Person Party Bundle", price: "$410 · 3 Entrees + 3 Apps/Veg + 2 Bases" },
+        { name: "26–30 Person Party Bundle", price: "$520 · 3 Entrees + 3 Apps/Veg + 2 Bases" }
       ]},
       { name: "Entree Platters", items: [
-        { name: "Mala Dry Pot Beef Platter", price: "$90" },
-        { name: "Signature Orange Chicken Platter", price: "$80" },
-        { name: "General Mao Chicken Platter", price: "$80" },
-        { name: "Impossible Mapo Tofu Platter", price: "$80" },
-        { name: "Chicken Broccoli Platter", price: "$80" },
-        { name: "Beef Broccoli Platter", price: "$80" },
-        { name: "Shrimp Broccoli Platter", price: "$80" },
-        { name: "Chicken & String Beans Platter", price: "$80" },
-        { name: "Shrimp & String Beans Platter", price: "$80" },
-        { name: "Beef & String Beans Platter", price: "$80" }
+        { name: "Mala Dry Pot Beef Platter", price: "$130" },
+        { name: "Signature Orange Chicken Platter", price: "$120" },
+        { name: "General Mao Chicken Platter", price: "$120" },
+        { name: "Impossible Mapo Tofu Platter", price: "$125" },
+        { name: "Chicken Broccoli Platter", price: "$120" },
+        { name: "Beef Broccoli Platter", price: "$120" },
+        { name: "Shrimp Broccoli Platter", price: "$135" },
+        { name: "Chicken & String Beans Platter", price: "$120" },
+        { name: "Shrimp & String Beans Platter", price: "$125" },
+        { name: "Beef & String Beans Platter", price: "$120" }
       ]},
       { name: "Rice Platters", items: [
-        { name: "Classic Fried Rice Platter", price: "$30" },
-        { name: "White Rice Platter", price: "$30" },
-        { name: "Brown Rice Platter", price: "$30" }
+        { name: "Classic Fried Rice Platter", price: "$40" },
+        { name: "White Rice Platter", price: "$40" },
+        { name: "Brown Rice Platter", price: "$40" }
       ]},
       { name: "Noodle Platters", items: [
-        { name: "Sichuan Dan Dan Noodles Platter", price: "$65" },
-        { name: "Char Kway Teow Noodles Platter", price: "$70" },
-        { name: "Lo Mein Noodles Platter", price: "$65" }
+        { name: "Sichuan Dan Dan Noodles Platter", price: "$85" },
+        { name: "Char Kway Teow Noodles Platter", price: "$90" },
+        { name: "Lo Mein Noodles Platter", price: "$85" }
       ]},
       { name: "Appetizer Platters", items: [
-        { name: "Five Spice Pepper Wings Platter", price: "$55" },
-        { name: "Crispy Shrimp Wonton Platter", price: "$55" },
-        { name: "Steamed Pork & Chives Dumplings Platter", price: "$50" },
-        { name: "Fried Pork & Chives Dumplings Platter", price: "$50" },
-        { name: "Fried Vegetable Dumplings Platter", price: "$50" },
-        { name: "Kung Pao Egg Roll", price: "$45" }
+        { name: "Five Spice Pepper Wings Platter", price: "$75" },
+        { name: "Crispy Shrimp Wonton Platter", price: "$75" },
+        { name: "Homemade Steamed Pork & Chives Dumplings Platter", price: "$65" },
+        { name: "Homemade Fried Pork & Chives Dumplings Platter", price: "$65" },
+        { name: "Homemade Fried Vegetable Dumplings Platter", price: "$65" },
+        { name: "Kung Pao Egg Roll", price: "$55" }
       ]},
       { name: "Vegetable Platters", items: [
-        { name: "Sauteed String Beans Platter", price: "$65" },
-        { name: "Baby Bok Choy Platter", price: "$60" },
-        { name: "Sauteed American Broccoli Platter", price: "$60" }
+        { name: "Sauteed String Beans Platter", price: "$80" },
+        { name: "Baby Bok Choy Platter", price: "$80" },
+        { name: "Sauteed American Broccoli Platter", price: "$80" }
       ]},
-      { name: "Individual Bowls", items: [
-        { name: "Char Kway Teow Noodles", tags: ["DF","EF","NF"], price: "$14.85" },
-        { name: "General Mao's Chicken", tags: ["DF","EF","NF"], price: "$14.85" },
-        { name: "Shrimp Broccoli", tags: ["DF","EF","NF"], price: "$15.35" },
-        { name: "Signature Orange Chicken", tags: ["DF","EF","NF"], price: "$14.85" },
-        { name: "Chicken Fried Rice", tags: ["DF","NF"], price: "$13.85" },
-        { name: "Beef Fried Rice", tags: ["DF","NF"], price: "$13.85" },
-        { name: "Shrimp Fried Rice", tags: ["DF","NF"], price: "$13.85" },
-        { name: "Tofu Fried Rice", tags: ["DF","NF"], price: "$13.85" }
-      ]}
     ]
   },
   "Mediterranean": {
-    restaurant: "Mezouk",
+    restaurant: "Mediterranean flavors with shawarma, falafel, mezze & vibrant sauces",
     categories: [
       { name: "Catering Packages", items: [
-        { name: "BYO Feast Catering Package", price: "$560" },
-        { name: "BYO Large Catering Package", price: "$430" },
-        { name: "BYO Medium Catering Package", price: "$300" },
-        { name: "BYO Small Catering Package", price: "$155" }
+        { name: "BYO Feast Catering Package", price: "$660 · Serves 40 · 4 Base, 4 Protein, 6 Toppings, 4 Veggies, 4 Sauce" },
+        { name: "BYO Large Catering Package", price: "$530 · Serves 30 · 3 Base, 3 Protein, 4 Toppings, 4 Veggies, 3 Sauce" },
+        { name: "BYO Medium Catering Package", price: "$400 · Serves 20 · 2 Base, 2 Protein, 3 Toppings, 3 Veggies, 2 Sauce" },
+        { name: "BYO Small Catering Package", price: "$255 · Serves 10 · 1 Base, 1 Protein, 2 Toppings, 2 Veggies, 1 Sauce" }
       ]},
       { name: "Base", items: [
-        { name: "Brown Rice Pilaf", tags: ["V","CN","CX"], price: "$35" },
-        { name: "Basmati Rice", tags: ["V","CD"], price: "$30" },
-        { name: "Farro & Couscous", tags: ["V","CG","CE","CY"], price: "$40" }
+        { name: "Brown Rice Pilaf", tags: ["V","CN","CX"], price: "$55" },
+        { name: "Basmati Rice", tags: ["V","CD"], price: "$45" },
+        { name: "Farro & Couscous", tags: ["V","CG","CE","CY"], price: "$65" }
       ]},
       { name: "Protein", items: [
-        { name: "Beef Shawarma", price: "$84" },
-        { name: "Harissa Chicken", tags: ["CN","CD","CX"], price: "$74" },
-        { name: "Falafel Hummus", tags: ["V","VG","CG","CX"], price: "$90" },
-        { name: "Pulled Mushroom Shawarma", tags: ["V","CY"], price: "$80" },
-        { name: "Roasted Salmon", tags: ["CS","CY"], price: "$90" }
+        { name: "Beef Shawarma", price: "$105" },
+        { name: "Harissa Chicken", tags: ["CN","CD","CX"], price: "$95" },
+        { name: "Falafel Hummus", tags: ["V","VG","CG","CX"], price: "$115" },
+        { name: "Pulled Mushroom Shawarma", tags: ["V","CY"], price: "$100" },
+        { name: "Roasted Salmon", tags: ["CS","CY"], price: "$135" }
       ]},
       { name: "Sides", items: [
-        { name: "Broccoli", tags: ["V","VG"], price: "$45" },
-        { name: "Corn", price: "$45" },
-        { name: "Sweet Potato", tags: ["V","VG"], price: "$50" },
-        { name: "Coleslaw", tags: ["V","CD","CE","CY"], price: "$45" },
-        { name: "Garlic Chicken Salad", tags: ["CG","CE","CY"], price: "$45" }
+        { name: "Broccoli", tags: ["V","VG"], price: "$55" },
+        { name: "Corn", price: "$55" },
+        { name: "Sweet Potato", tags: ["V","VG"], price: "$65" },
+        { name: "Coleslaw", tags: ["V","CD","CE","CY"], price: "$55" },
+        { name: "Garlic Chicken Salad", tags: ["CG","CE","CY"], price: "$55" }
       ]},
       { name: "Sauces & Dips", items: [
-        { name: "Spicy Tahini", tags: ["V","VG","CX"], price: "$15" },
-        { name: "Signature Hot Pepper Sauce", tags: ["V"], price: "$15" },
-        { name: "Harissa", tags: ["V","CY"], price: "$15" },
-        { name: "Cilantro Zhoug", tags: ["V","VG"], price: "$15" }
+        { name: "Spicy Tahini", tags: ["V","VG","CX"], price: "$20" },
+        { name: "Signature Hot Pepper Sauce", tags: ["V"], price: "$20" },
+        { name: "Harissa", tags: ["V","CY"], price: "$20" },
+        { name: "Cilantro Zhoug", tags: ["V","VG"], price: "$20" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Pita Chip Salad", tags: ["CG","CN","CD","CX"], price: "$45" },
-        { name: "Crispy Flatbread", tags: ["CG"], price: "$25" },
-        { name: "Zaatar Wings", tags: ["CX"], price: "$65" },
-        { name: "Feta Fries", tags: ["V","CG","CD","CX","CY"], price: "$40" },
-        { name: "Fries", tags: ["V","CG","CY"], price: "$35" },
-        { name: "Hummus & Pita Platter", tags: ["CG","CD","CX"], price: "$35" },
-        { name: "Tzatziki & Pita Platter", tags: ["CG","CD","CX"], price: "$35" }
-      ]},
-      { name: "Signature Bowls", items: [
-        { name: "Harissa Chicken Bowl", tags: ["CN","CD","CX"], price: "$11.99" },
-        { name: "Roasted Salmon Bowl", tags: ["CS","CY"], price: "$15.49" },
-        { name: "Falafel Hummus Bowl", price: "$12.49" },
-        { name: "GF Bowl (Choice of Protein)", price: "$13.50" }
+        { name: "Pita Chip Salad", tags: ["CG","CN","CD","CX"], price: "$55" },
+        { name: "Crispy Flatbread", tags: ["CG"], price: "$35" },
+        { name: "Zaatar Wings", tags: ["CX"], price: "$85" },
+        { name: "Feta Fries", tags: ["V","CG","CD","CX","CY"], price: "$50" },
+        { name: "Fries", tags: ["V","CG","CY"], price: "$45" },
+        { name: "Hummus & Pita Platter", tags: ["CG","CD","CX"], price: "$45" },
+        { name: "Tzatziki & Pita Platter", tags: ["CG","CD","CX"], price: "$45" }
       ]}
     ]
   },
   "Indian": {
-    restaurant: "Nimbu",
+    restaurant: "Bold Indian catering with rich curries, tandoor apps & aromatic sides",
     categories: [
       { name: "Catering Packages", items: [
-        { name: "Create-Your-Own Large Package", price: "$480" },
-        { name: "Create-Your-Own Medium Package", price: "$320" },
-        { name: "Create-Your-Own Small Package", price: "$160" }
+        { name: "Create-Your-Own Large Package", price: "$580 · Serves 30 · 3 Base, 3 Protein, 4 Veggie, 4 Toppings, 3 Sauce" },
+        { name: "Create-Your-Own Medium Package", price: "$420 · Serves 20 · 2 Base, 2 Protein, 3 Veggie, 3 Toppings, 2 Sauce" },
+        { name: "Create-Your-Own Small Package", price: "$260 · Serves 10 · 1 Base, 1 Protein, 2 Veggie, 2 Toppings, 1 Sauce" }
       ]},
       { name: "Base", items: [
-        { name: "Basmati Rice", tags: ["V","CD"], price: "$30" },
-        { name: "Brown Rice + Lentils", tags: ["V"], price: "$35" },
-        { name: "Farro + Couscous", tags: ["V","CG","CE","CY"], price: "$40" }
+        { name: "Basmati Rice", tags: ["V","CD"], price: "$40" },
+        { name: "Brown Rice + Lentils", tags: ["V"], price: "$50" },
+        { name: "Farro + Couscous", tags: ["V","CG","CE","CY"], price: "$65" }
       ]},
       { name: "Protein", items: [
-        { name: "Chicken Tikka Masala", tags: ["CD"], price: "$80" },
-        { name: "Roasted Salmon", tags: ["CS","CY"], price: "$90" },
-        { name: "Green Chili Chicken", price: "$75" },
-        { name: "Smoky Chili Chicken", tags: ["CD"], price: "$75" },
-        { name: "Tikka Pulled Shiitake Mushroom", tags: ["CD","CY"], price: "$85" }
+        { name: "Chicken Tikka Masala", tags: ["CD"], price: "$100" },
+        { name: "Roasted Salmon", tags: ["CS","CY"], price: "$135" },
+        { name: "Green Chili Chicken", price: "$95" },
+        { name: "Smoky Chili Chicken", tags: ["CD"], price: "$95" },
+        { name: "Tikka Pulled Shiitake Mushroom", tags: ["CD","CY"], price: "$100" }
       ]},
       { name: "Sides", items: [
-        { name: "Chickpea Curry", tags: ["V","CD"], price: "$50" },
-        { name: "Roasted Broccoli", tags: ["V","VG"], price: "$45" },
-        { name: "Corn", price: "$45" },
-        { name: "Sweet Potato", tags: ["V","VG"], price: "$50" },
-        { name: "Coleslaw", tags: ["V","CD","CE","CY"], price: "$45" }
+        { name: "Chickpea Curry", tags: ["V","CD"], price: "$60" },
+        { name: "Roasted Broccoli", tags: ["V","VG"], price: "$55" },
+        { name: "Corn", price: "$55" },
+        { name: "Sweet Potato", tags: ["V","VG"], price: "$60" },
+        { name: "Coleslaw", tags: ["V","CD","CE","CY"], price: "$55" }
       ]},
       { name: "Sauces", items: [
-        { name: "Tamarind Chutney", price: "$15" },
-        { name: "Cilantro Chutney", price: "$15" },
-        { name: "Cucumber Raita", tags: ["CD"], price: "$15" },
-        { name: "Cilantro Crema", tags: ["V","CD"], price: "$15" },
-        { name: "Shawarma White Sauce", tags: ["V","CD","CE","CY"], price: "$15" }
+        { name: "Tamarind Chutney", price: "$20" },
+        { name: "Cilantro Chutney", price: "$20" },
+        { name: "Cucumber Raita", tags: ["CD"], price: "$20" },
+        { name: "Cilantro Crema", tags: ["V","CD"], price: "$20" },
+        { name: "Shawarma White Sauce", tags: ["V","CD","CE","CY"], price: "$20" }
       ]},
       { name: "Apps", items: [
-        { name: "Garlic Naan", tags: ["CD"], price: "$35" },
-        { name: "Roti", tags: ["CG","CS","CY"], price: "$35" },
-        { name: "Masala Wings", tags: ["CG","CD"], price: "$65" },
-        { name: "Mini Vegetable Samosa w/ Chutney", tags: ["V","CG"], price: "$50" }
-      ]},
-      { name: "Signature Bowls", items: [
-        { name: "Smoky Chili Chicken Bowl", price: "$15.99" },
-        { name: "Masala Salmon Bowl", price: "$15.99" },
-        { name: "GF Bowl (Choice of Protein)", price: "$14" }
+        { name: "Garlic Naan", tags: ["CD"], price: "$50" },
+        { name: "Roti", tags: ["CG","CS","CY"], price: "$45" },
+        { name: "Masala Wings", tags: ["CG","CD"], price: "$90" },
+        { name: "Mini Vegetable Samosa w/ Chutney", tags: ["V","CG"], price: "$65" }
       ]}
     ]
   },
   "Sushi": {
-    restaurant: "Naka",
+    restaurant: "Premium sushi catering — maki platters, nigiri packages & fresh appetizers",
     categories: [
       { name: "Popular Packages", items: [
-        { name: "Get-Together Package", price: "$299" },
-        { name: "Bonfire Package", price: "$699" },
-        { name: "Cocktail Package", price: "$1,349" }
+        { name: "Get-Together Package", price: "$499 · Serves 10+" },
+        { name: "Bonfire Package", price: "$899 · Serves 25" },
+        { name: "Cocktail Package", price: "$1,549 · Serves 50" }
       ]},
       { name: "Maki Platters", items: [
-        { name: "Premium Kaisen Package", price: "$225" },
-        { name: "Flaming Hot Package", price: "$170" },
-        { name: "Herbivore Package", price: "$150" },
-        { name: "The Naka Package", price: "$165" },
-        { name: "Salmon Lover's Package", price: "$160" },
-        { name: "Build Your Own Maki Package", price: "$165" }
+        { name: "Premium Kaisen Package", price: "$325 · 120 pcs · Serves 7-10 · Spicy Salmon, Yellowtail, Scallop, Blue Crab" },
+        { name: "Flaming Hot Package", price: "$270 · 120 pcs · Serves 7-10 · Spicy Tuna, Spicy Salmon, Spicy Yellowtail, Spicy Tempura Prawn" },
+        { name: "Herbivore Package", price: "$250 · 120 pcs · Serves 7-10 · Avocado-Cucumber, Avocado, Truffle-Avocado, Cucumber" },
+        { name: "The Naka Package", price: "$265 · 120 pcs · Serves 7-10 · Spicy Tuna, Salmon-Avocado, Eel-Cucumber, California" },
+        { name: "Salmon Lover's Package", price: "$260 · 120 pcs · Serves 7-10 · Spicy Salmon, Salmon, Salmon-Avocado, Salmon-Cucumber" },
+        { name: "Build Your Own Maki Package", price: "$265 · 20 rolls · Serves 7-10 · 5 rolls each, custom selection" }
       ]},
-      { name: "Nigiri", items: [
-        { name: "Nigiri Package", price: "$250" },
-        { name: "Premium Nigiri Package", price: "$320" },
-        { name: "Build Your Own Nigiri Package", price: "$35" }
+      { name: "Nigiri Packages", items: [
+        { name: "Nigiri Package", price: "$350 · 80 pcs · Serves 7-10 · Salmon, Tuna, Yellowtail, Unagi (20 each)" },
+        { name: "Premium Nigiri Package", price: "$420 · 80 pcs · Serves 7-10 · Salmon, Tuna, Yellowtail, Unagi, Scallop, Shrimp, Crab, Ikura (10 each)" },
+        { name: "Build Your Own Nigiri Package", price: "$55 · per 10 slices · Custom selection" }
       ]},
       { name: "Appetizers", items: [
-        { name: "Seaweed Salad Platter", tags: ["V"], price: "$45" },
-        { name: "Kani Salad Platter", price: "$50" },
-        { name: "Potato Croquette & Yuzu Aioli Platter", tags: ["V"], price: "$65" },
-        { name: "Shishito Peppers & Yuzu Salt Platter", tags: ["V"], price: "$70" },
-        { name: "Pork Gyoza & Yuzu Ponzu Platter", price: "$70" },
-        { name: "Vegetable Gyoza & Yuzu Ponzu Platter", tags: ["V"], price: "$65" },
-        { name: "Cucumber Salad Platter", price: "$55" },
-        { name: "Truffle Edamame Platter", tags: ["V"], price: "$60" },
-        { name: "Miso Soup", tags: ["V"], price: "$4.50" }
+        { name: "Seaweed Salad Platter", tags: ["V"], price: "$55" },
+        { name: "Kani Salad Platter", price: "$60" },
+        { name: "Potato Croquette & Yuzu Aioli Platter", tags: ["V"], price: "$75" },
+        { name: "Shishito Peppers & Yuzu Salt Platter", tags: ["V"], price: "$80" },
+        { name: "Pork Gyoza & Yuzu Ponzu Platter", price: "$80" },
+        { name: "Vegetable Gyoza & Yuzu Ponzu Platter", tags: ["V"], price: "$75" },
+        { name: "Cucumber Salad Platter", price: "$65" },
+        { name: "Truffle Edamame Platter", tags: ["V"], price: "$70" }
       ]}
     ]
   }
